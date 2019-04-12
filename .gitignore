@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+data/out/*
+!data/out/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+node_modules
+.dropbox
+Icon
+Icon\r
+"Icon\r"

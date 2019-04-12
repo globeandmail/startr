@@ -1,0 +1,29 @@
+---
+title: '`r config_author`'
+author: '`r config_title`'
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_notebook:
+    code_folding: hide
+    df_print: kable
+    self_contained: yes
+    theme: cosmo
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+---
+
+## Config
+```{r config, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+
+if (!require('devtools')) install.packages('devtools'); library('devtools')
+if (!require('here')) install.packages('here'); library('here')
+
+source(here::here('config.R'))
+if (should_process_data) source(here::here(dir_src, 'process.R'))
+source(here::here(dir_src, 'analyze.R'))
+source(here::here(dir_src, 'visualize.R'))
+
+options(warn = 1, width = 200)
+
+```
