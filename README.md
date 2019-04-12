@@ -18,7 +18,7 @@ Broadly, the goals of `startr` are to:
   * Capture reporting questions and answers from the data
   * Generate updatable reports, graphics, and datasets throughout the analysis
 
-Input files are treated as raw and read-only while outputs, including data, plots and reports, are treated as a disposible product. No variables should ever be overwritten or reassigned to prevent order-of-execution accidents.
+Input files are treated as raw and read-only while outputs, including data, plots and reports, are treated as a disposable product. No variables should ever be overwritten or reassigned to prevent order-of-execution accidents.
 
 
 ## How do I use this?
