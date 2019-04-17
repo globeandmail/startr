@@ -144,6 +144,7 @@ The notebook should include a link to the primary dataset and additional snapsho
 ```bash
 ├── data/
 │   ├── raw         # The original data files. Treat this directory as read-only.
+│   ├── cache       # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
 │   ├── processed   # Imported and tidied data used throughout the analysis.
 │   └── out         # Exports of data at key steps or as a final output.
 ├── R/

@@ -17,6 +17,7 @@ config_title <- 'startr'
 dir_data <- 'data'
 dir_src <- 'R'
 dir_data_raw <- 'data/raw'
+dir_data_cache <- 'data/cache'
 dir_data_processed <- 'data/processed'
 dir_data_out <- 'data/out'
 dir_reports <- 'reports'
@@ -60,7 +61,12 @@ source(here::here(dir_src, 'functions.R'))
 
 load_requirements(packages)
 
-options(cancensus.api_key = Sys.getenv(c('CANCENSUS_API')))
+options(
+  # CANCENSUS_API should be set in your home directory's .Renviron file,
+  # and will get pulled down from there
+  cancensus.api_key = Sys.getenv(c('CANCENSUS_API')),
+  cancensus.cache = here::here(dir_data_cache)
+)
 
 knitr::opts_chunk$set(
   eval = TRUE,
