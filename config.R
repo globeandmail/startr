@@ -65,7 +65,8 @@ options(
   # CANCENSUS_API should be set in your home directory's .Renviron file,
   # and will get pulled down from there
   cancensus.api_key = Sys.getenv(c('CANCENSUS_API')),
-  cancensus.cache = here::here(dir_data_cache)
+  cancensus.cache = here::here(dir_data_cache),
+  cansim.cache_path = here::here(dir_data_cache)
 )
 
 knitr::opts_chunk$set(
