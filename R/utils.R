@@ -169,5 +169,18 @@ save_workbook_timestamp <- function(workbook, workbook_filename, export_director
 }
 
 write_excel <- function(variable) {
-  write.xlsx(variable, file = here::here(dir_data_out, glue('{deparse(substitute(for_sean))}.xlsx')))
+  write.xlsx(variable, file = here::here(dir_data_out, glue('{deparse(substitute(variable))}.xlsx')))
+}
+
+begin_processing <- function() {
+  assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
+}
+
+wrap_processing <- function() {
+  ls(.GlobalEnv) %>%
+    setdiff(., curr_env) %>%
+    as.character() %>%
+    rm(list = ., envir = .GlobalEnv)
+
+  beep()
 }
