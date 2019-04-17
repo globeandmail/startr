@@ -163,9 +163,11 @@ add_to_workbook <- function(dataframe, workbook, worksheet_name, worksheet_numbe
 }
 
 save_workbook_timestamp <- function(workbook, workbook_filename, export_directory = dir_data_out){
-
   now <- Sys.time()
   workbook_file <- paste0(workbook_filename, format(now, "%Y%m%d_%H%M%S_"), ".xlsx")
   saveWorkbook(workbook, file = here::here(export_directory, workbook_file), overwrite = TRUE)
+}
 
+write_excel <- function(variable) {
+  write.xlsx(variable, file = here::here(dir_data_out, glue('{deparse(substitute(for_sean))}.xlsx')))
 }
