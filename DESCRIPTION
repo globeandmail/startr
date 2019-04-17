@@ -1,11 +1,12 @@
 Package: startR
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: A Template For Data Journalism Projects In R
+Version: 1.0.1
+Author: Michael Pereira <mpereira@globeandmail.com> and Tom Cardoso <tcardoso@globeandmail.com>
+Maintainer: Michael Pereira <mpereira@globeandmail.com> and Tom Cardoso <tcardoso@globeandmail.com>
+Description: This project structures the data analysis process around an expected set of files and steps.
+    This lowers the upfront effort of starting and maintaining a project and supports easier verification by providing reviewers with an expected and logically organized project.
+    Think of it like Ruby on Rails or React, but for R analysis.
+License: MIT
 Encoding: UTF-8
 LazyData: true

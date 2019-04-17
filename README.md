@@ -1,6 +1,6 @@
 # startr
 
-A template for data analysis projects in R.
+A template for data journalism projects in R.
 
 This project structures the data analysis process around an expected set of files and steps. This lowers the upfront effort of starting and maintaining a project and supports easier verification by providing reviewers with an expected and logically organized project. Think of it like Ruby on Rails or React, but for R analysis.
 
@@ -46,7 +46,7 @@ Packages are managed through the `packages` list in the `config.R` file. `devtoo
 
 The bulk of the analysis is based on a set of files within the `R` directory which are sourced and run in order by `run.R` at the project root.
 
-Before starting an analysis, you'll want to point to your data files in `config.R` and make sure it's loading all the packages you'll need. For instance, you might want to add the [`cancensus`](https://github.com/mountainMath/cancensus) package. To do that, just add `'cancensus'` to the `packages` vector. Package suggestions for GIS work, scraping, dataset summaries, etc.  are included and commented out to avoid bloat. 
+Before starting an analysis, you'll want to point to your data files in `config.R` and make sure it's loading all the packages you'll need. For instance, you might want to add the [`cancensus`](https://github.com/mountainMath/cancensus) package. To do that, just add `'cancensus'` to the `packages` vector. Package suggestions for GIS work, scraping, dataset summaries, etc.  are included and commented out to avoid bloat.
 
 Once that's done, you'll want to reference your raw data filenames. For instance, if you're adding pizza delivery data, you'd add this line to the "Files" block in `config.R`:
 
@@ -155,7 +155,7 @@ An `.nvmrc` is included at the project root for scraping with Node. A `venv` and
 
 ## Version
 
-1.0.0
+1.0.1
 
 ## License
 
