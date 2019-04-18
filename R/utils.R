@@ -176,7 +176,7 @@ begin_processing <- function() {
   assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
 }
 
-wrap_processing <- function() {
+end_processing <- function() {
   ls(.GlobalEnv) %>%
     setdiff(., curr_env) %>%
     as.character() %>%
