@@ -8,6 +8,8 @@
 #
 ############################################################
 
+# begin_processing()
+
 # sample.raw <- read_csv(here::here(dir_data_raw, sample.raw.file)) %>%
 #   rename(
 #     cma = 'CMA',
@@ -23,6 +25,4 @@
 #
 # write_csv(sample.raw, here::here(dir_data_processed, 'sample.csv'))
 #
-# rm(sample.raw)
-#
-# beep()
+# end_processing()
