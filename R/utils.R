@@ -100,7 +100,7 @@ nominatim_osm <- function(address = NULL) {
   return(data.frame(lon = as.numeric(d$lon), lat = as.numeric(d$lat)))
 }
 
-render_notebook <- function() {
+render_notebook <- function(r_notebook) {
   rmarkdown::render(
     r_notebook,
     output_dir = dir_reports,

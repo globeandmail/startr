@@ -24,7 +24,8 @@ dir_reports <- 'reports'
 dir_plots <- 'plots'
 
 # Files: You'll want to edit this to add your source data file names
-r_notebook <- 'notebook.Rmd'
+r_notebook <- paste(dir_reports, 'notebook.Rmd', sep='/')
+
 sample.raw.file <- 'sample.csv'
 
 # Misc. vars: In some cases, you might not want to re-process the
