@@ -4,8 +4,6 @@
 #
 ############################################################
 
-# install_github('globeandmail/tgamRtheme')
-
 options(scipen = 999)
 Sys.setenv(TZ = 'America/Toronto')
 
@@ -23,9 +21,14 @@ dir_data_out <- 'data/out'
 dir_reports <- 'reports'
 dir_plots <- 'plots'
 
+
 # Files: You'll want to edit this to add your source data file names
-r_notebook <- 'notebook.Rmd'
 sample.raw.file <- 'sample.csv'
+
+# Primary and supplemental notebooks.
+# Set should_render_notebook to TRUE if using notebooks
+r_notebook <- paste(dir_reports, 'notebook.Rmd', sep='/')
+
 
 # Misc. vars: In some cases, you might not want to re-process the
 # data every time (say, if you're ingesting several gigabytes), so

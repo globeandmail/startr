@@ -131,24 +131,24 @@ ggsave(plot_deliveries_monthly, file = here::here(dir_plots, 'plot_deliveries_mo
 
 ```bash
 ├── data/
-│   ├── raw         # The original data files. Treat this directory as read-only.
-│   ├── cache       # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
-│   ├── processed   # Imported and tidied data used throughout the analysis.
-│   └── out         # Exports of data at key steps or as a final output.
+│   ├── raw           # The original data files. Treat this directory as read-only.
+│   ├── cache         # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
+│   ├── processed     # Imported and tidied data used throughout the analysis.
+│   └── out           # Exports of data at key steps or as a final output.
 ├── R/
-│   ├── process.R   # Data processing including tidying, processing and manupulation.
-│   ├── analyze.R   # The primary analysis steps.
-│   ├── visualize.R # Generate plots as png, pdf, etc.
-│   ├── utils.R     # Commonly-used functions.
-│   └── functions.R # Project-specific functions.
+│   ├── process.R     # Data processing including tidying, processing and manupulation.
+│   ├── analyze.R     # The primary analysis steps.
+│   ├── visualize.R   # Generate plots as png, pdf, etc.
+│   ├── utils.R       # Commonly-used functions.
+│   └── functions.R   # Project-specific functions.
 ├── scrape/
-│   └── scrape.R    # Scraping scripts that save collected data to the `/data/raw/` directory.
-├── plots/          # Visualizations saved out plot files in standard formats.
-├── reports/        # Generated reports and associated files.
-├── config.R        # Global project variables including packages, key project paths and data sources.
-├── run.R           # Wrapper file to run the analysis steps, either inline or sourced from component R files.
-├── notebook.Rmd    # Standard notebook to render reports.
-└── startr.Rproj    # Rproj file for RStudio
+│   └── scrape.R      # Scraping scripts that save collected data to the `/data/raw/` directory.
+├── plots/            # Visualizations saved out plot files in standard formats.
+├── reports/          # Generated reports and associated files.
+│   └── notebook.Rmd  # Standard notebook to render reports.
+├── config.R          # Global project variables including packages, key project paths and data sources.
+├── run.R             # Wrapper file to run the analysis steps, either inline or sourced from component R files.
+└── startr.Rproj      # Rproj file for RStudio
 ```
 
 An `.nvmrc` is included at the project root for scraping with Node. A `venv` and `requirements.txt` file should be included within the scraper directory if Python is used for scraping.
