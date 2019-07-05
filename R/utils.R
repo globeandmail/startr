@@ -195,7 +195,7 @@ write_plot <- function(variable, width = NA, height = NA, format = NA, units = N
   if(!is.na(dpi)) default_dpi <- dpi
 
   ggsave(
-    plot <- variable,
+    plot = variable,
     file = here::here(dir_plots, glue('{deparse(substitute(variable))}.{default_format}')),
     units = default_units,
     dpi = default_dpi,
