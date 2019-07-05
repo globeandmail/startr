@@ -184,3 +184,22 @@ end_processing <- function() {
 
   beep()
 }
+
+write_plot <- function(variable, width = NA, height = NA, format = NA, units = NA, dpi = NA) {
+  default_format <- 'png'
+  default_units <- 'in'
+  default_dpi <- 300
+
+  if(!is.na(format)) default_format <- format
+  if(!is.na(units)) default_units <- units
+  if(!is.na(dpi)) default_dpi <- dpi
+
+  ggsave(
+    plot <- variable,
+    file = here::here(dir_plots, glue('{deparse(substitute(variable))}.{default_format}')),
+    units = default_units,
+    dpi = default_dpi,
+    width = width,
+    height = height
+  )
+}             
