@@ -1,15 +1,15 @@
 ############################################################
 # Charts, maps, etc. from your data
 #
-# Assigning the generic p plot to a variable is handy for
-# inserting plots into notebook chunks.
+# Use the `write_plot` function to write the plot directly
+# to the `plots/` folder, using the variable name as
+# the filename.
 #
 ############################################################
 
-# sample_filtered <- sample %>%
-#   filter(cma != 'C11')
-#
-# plot_c11_yoy <- ggplot(data = sample_filtered, aes(x = reorder(cma, yoy), y = yoy)) +
+# plot_house_price_change <- ggplot(sample %>%
+#   filter(cma != 'C11'),
+#   aes(x = reorder(cma, yoy), y = yoy)) +
 #   geom_bar(colour = 'white', stat = 'identity') +
 #   scale_y_continuous(expand = c(0, 0), limits = c(0, 25)) +
 #   coord_flip() +
@@ -21,6 +21,6 @@
 #   ) +
 #   theme_classic()
 #
-# plot(p_c11_yoy)
+# plot(plot_house_price_change)
 #
-# ggsave(p_c11_yoy, file = here::here(dir_plots, 'C11_YoY.png'), width = 6.5, height = 6.5, units = 'in', dpi = 300)
+# write_plot(plot_house_price_change)
