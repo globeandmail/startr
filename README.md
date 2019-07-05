@@ -82,8 +82,6 @@ pizza.raw <- read_excel(here::here(dir_data_raw, pizza.raw.file), skip = 2) %>%
   filter(!is.na(date))
 
 write_csv(pizza.raw, here::here(dir_data_processed, 'pizza.csv'))
-
-rm(pizza.raw)
 ```
 
 The output files written to `dir_data_processed` (that is, `/data/processed`) aren't checked into Git by design — you should be able to reproduce the analysis-ready files from someone else's project by running `process.R`.
@@ -124,7 +122,7 @@ plot_deliveries_monthly <- ggplot(deliveries_monthly, aes(x = year_month, y = n)
 
 plot(plot_deliveries_monthly)
 
-ggsave(plot_deliveries_monthly, file = here::here(dir_plots, 'plot_deliveries_monthly.png'), width = 6.5, height = 6.5)
+write_plot(plot_deliveries_monthly)
 ```
 
 ## Directory structure
