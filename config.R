@@ -21,14 +21,12 @@ dir_data_out <- 'data/out'
 dir_reports <- 'reports'
 dir_plots <- 'plots'
 
-
 # Files: You'll want to edit this to add your source data file names
 sample.raw.file <- 'sample.csv'
 
 # Primary and supplemental notebooks.
 # Set should_render_notebook to TRUE if using notebooks
-r_notebook <- paste(dir_reports, 'notebook.Rmd', sep='/')
-
+r_notebook <- here::here(dir_reports, 'notebook.Rmd')
 
 # Misc. vars: In some cases, you might not want to re-process the
 # data every time (say, if you're ingesting several gigabytes), so
