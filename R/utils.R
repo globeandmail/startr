@@ -137,12 +137,12 @@ simplify_string <- function(x, alpha = TRUE, digits = FALSE) {
     trimws(.)
 }
 
-convert_str_to_logical <- function(x) {
+convert_str_to_logical <- function(x, truthy = 'T|TRUE', falsy = 'F|FALSE') {
   x %>%
     toupper(.) %>%
     trimws(.) %>%
-    str_replace_all(., 'T|TRUE', 'TRUE') %>%
-    str_replace_all(., 'F|FALSE', 'FALSE') %>%
+    str_replace_all(., truthy, 'TRUE') %>%
+    str_replace_all(., falsy, 'FALSE') %>%
     as.logical(.)
 }
 
