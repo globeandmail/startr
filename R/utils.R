@@ -136,6 +136,27 @@ simplify_string <- function(x, alpha = TRUE, digits = FALSE) {
     toupper(.) %>%
     trimws(.)
 }
+              
+clean_columns <- function(x) {
+  cols <- x %>%
+    unaccent(.) %>%
+    str_replace_all(., '[\\s]+', '_') %>%
+    str_replace_all(., '[_]+', '_') %>%
+    str_replace_all(., '[^_a-zA-Z]', '') %>%
+    tolower(.) %>%
+    trimws(.)
+
+  for (i in 1:length(cols)) {
+    if (!as.logical(str_count(cols[i]))) {
+      cols[i] <- glue('column_{i}')
+    }
+    if (any(cols[1:i - 1] == cols[i])) {
+      cols[i] <- glue('{cols[i]}_{i}')
+    }
+  }
+
+  return(cols)
+}              
 
 convert_str_to_logical <- function(x, truthy = 'T|TRUE', falsy = 'F|FALSE') {
   x %>%
