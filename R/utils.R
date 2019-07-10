@@ -1,4 +1,4 @@
-# Load required packages
+# load required packages
 load_requirements <- function(pkg){
   new.pkg <- pkg[!(pkg %in% installed.packages()[, 'Package'])]
   if (length(new.pkg))
@@ -6,26 +6,20 @@ load_requirements <- function(pkg){
   sapply(pkg, require, character.only = TRUE)
 }
 
-# Returns all items in a list that are not contained in toMatch
-# toMatch can be a single item or a list of items
-exclude <- function (theList, toMatch) {
-  return(setdiff(theList,include(theList,toMatch)))
+# returns all items in a list that are not contained in to_match
+# to_match can be a single item or a list of items
+exclude <- function (the_list, to_match) {
+  return(setdiff(the_list, include(the_list, to_match)))
 }
 
-# Returns all items in a list that ARE contained in toMatch
-# toMatch can be a single item or a list of items
-include <- function (theList, toMatch) {
-  matches <- unique (grep(paste(toMatch,collapse='|'), theList, value=TRUE))
-  return(matches)
+# returns all items in a list that ARE contained in to_match
+# to_match can be a single item or a list of items
+include <- function (the_list, to_match) {
+  return(unique(grep(paste(to_match, collapse = '|'), the_list, value = TRUE)))
 }
 
-# Clean up bad XLS formatting with thousand-separator comma kept in value
-remove_comma_from_numeric <- function(s) {
-  gsub(',', '', s, fixed = TRUE)
-}
-
-# Run the gauntlet of basic exploratory data analysis on your data
-run_basic_eda <- function(data){
+# run the gauntlet of basic exploratory data analysis on your data
+run_basic_eda <- function(data) {
   glimpse(data)
   df_status(data)
   freq(data)
@@ -34,59 +28,21 @@ run_basic_eda <- function(data){
   describe(data)
 }
 
-# Read in x rows, format as header and sub that in as the header
-read_datafile_2header <- function(filename, skip_rows=0, header_rows=1) {
-
-  filepath <- paste(data_src_path, filename, sep='')
-
-  # Read and format the headers which span multiple lines
-  headers <- read.csv(filepath, nrows=header_rows, header=FALSE)
-  headers_names <- sapply(headers,paste,collapse='_')
-  headers_names <- str_replace_all(headers_names, '-', '_')
-  headers_names <- str_replace_all(headers_names, '  ', '_')
-  headers_names <- str_replace_all(headers_names, '__', '_')
-  headers_names <- str_replace_all(headers_names, '__', '_')
-
-  df <- read.csv(file=filepath, skip = skip_rows, header=FALSE, stringsAsFactors=FALSE )
-  names(df) <- headers_names
-
-  names(df) <- gsub('  ', '_', names(df), fixed = TRUE)
-  names(df) <- gsub(' ', '_', names(df), fixed = TRUE)
-  names(df) <- gsub('__', '_', names(df), fixed = TRUE)
-  names(df) <- gsub('-', '_', names(df), fixed = TRUE)
-  names(df) <- gsub(',', '', names(df), fixed = TRUE)
-  names(df) <- gsub('.', '', names(df), fixed = TRUE)
-
-  return(df)
-
+# read all the sheets of an Excel file and concatenate them into one long tibble
+read_all_excel_sheets <- function(filepath, col_types = NULL, col_names = TRUE, skip = 0) {
+  filepath %>%
+    excel_sheets() %>%
+    set_names() %>%
+    map_df(~ read_excel(
+      path = filepath,
+      skip = skip,
+      col_names = col_names,
+      col_types = col_types,
+      sheet = .x
+    ), .id = 'sheet')
 }
 
-# https://stackoverflow.com/questions/12945687/read-all-worksheets-in-an-excel-workbook-into-an-r-list-with-data-frames
-read_excel_allsheets <- function(filename, tibble = FALSE) {
-  # I prefer straight data.frames
-  # but if you like tidyverse tibbles (the default with read_excel)
-  # then just pass tibble = TRUE
-  sheets <- readxl::excel_sheets(filename)
-  x <- lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
-  if(!tibble) x <- lapply(x, as.data.frame)
-  names(x) <- sheets
-  x
-}
-
-cleaner_worksheet <- function(df) {
-  # drop rows with missing values
-  df <- df[rowSums(is.na(df)) == 0,]
-  # remove serial comma from all variables
-  df[,-1] <- as.numeric(gsub(',', '', as.matrix(df[,-1])))
-  # create numeric version of year variable for graphing
-  df$Year <- as.numeric(substr(df$year, 1, 4))
-  # return cleaned df
-  return(df)
-}
-
-# geocoding function using OSM Nominatim API
-# details: http://wiki.openstreetmap.org/wiki/Nominatim
-# made by: D.Kisler
+# geocoding function using OSM Nominatim API (http://wiki.openstreetmap.org/wiki/Nominatim)
 nominatim_osm <- function(address = NULL) {
   if(suppressWarnings(is.null(address)))
     return(data.frame())
@@ -100,27 +56,25 @@ nominatim_osm <- function(address = NULL) {
   return(data.frame(lon = as.numeric(d$lon), lat = as.numeric(d$lat)))
 }
 
-render_notebook <- function(notebook_file) {
-  rmarkdown::render(
-    notebook_file,
-    output_dir = dir_reports,
-    encoding = 'utf-8'
-  )
-}
-
+# calculate the indexed change for a vector
 index <- function(m) {
   (m - first(m)) / first(m)
 }
 
+# calculate the mode of a vector
 mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
 
+# force accented characters to their non-accented versions
 unaccent <- function(x) {
   iconv(x, to = 'ASCII//TRANSLIT')
 }
 
+# forcibly simplifies strings to just uppercase and single spaces, helpful when dealing with messy data. examples:
+# defualt settings: "Hello! My name is   Tom " –> "HELLO MY NAME IS TOM"
+# with digits = TRUE: "24th Ave..    Pizza / Restaurant / Bar" -> "24 AVE PIZZA RESTAURANT BAR"
 simplify_string <- function(x, alpha = TRUE, digits = FALSE) {
   re <- '^\\s'
 
@@ -136,7 +90,10 @@ simplify_string <- function(x, alpha = TRUE, digits = FALSE) {
     toupper(.) %>%
     trimws(.)
 }
-              
+
+# clean up column names by enforcing snake_case. examples:
+# Excel files: read_excel(data, .name_repair = ~ clean_columns)
+# Tibbles: data %>% rename_all(., ~ clean_columns(.))
 clean_columns <- function(x) {
   cols <- x %>%
     unaccent(.) %>%
@@ -158,6 +115,7 @@ clean_columns <- function(x) {
   return(cols)
 }              
 
+# helper function to convert characters to logicals with some handy presets
 convert_str_to_logical <- function(x, truthy = 'T|TRUE', falsy = 'F|FALSE') {
   x %>%
     toupper(.) %>%
@@ -167,9 +125,25 @@ convert_str_to_logical <- function(x, truthy = 'T|TRUE', falsy = 'F|FALSE') {
     as.logical(.)
 }
 
-add_to_workbook <- function(dataframe, workbook, worksheet_name, worksheet_number){
+# function called at the beginning of `process.r`
+begin_processing <- function() {
+  assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
+}
 
-  wb_header_style <- createStyle(fontSize = 13, textDecoration="bold", fontColour = "#000000", halign = "left", border="Bottom", borderColour = "#000000")
+# function called at the end of `process.R`, cleans up workspace
+end_processing <- function() {
+  ls(.GlobalEnv) %>%
+    setdiff(., curr_env) %>%
+    as.character() %>%
+    rm(list = ., envir = .GlobalEnv)
+
+  beep()
+}
+
+# some opinionated formatting and saving out for a less Excel-proficient users
+add_to_workbook <- function(dataframe, workbook, worksheet_name, worksheet_number) {
+
+  wb_header_style <- createStyle(fontSize = 13, textDecoration = "bold", fontColour = "#000000", halign = "left", border = "Bottom", borderColour = "#000000")
   wb_body_style <- createStyle(fontSize = 13, fontColour = "#000000", halign = "left", borderColour = "#000000")
 
   addWorksheet(workbook, worksheet_name)
@@ -183,29 +157,19 @@ add_to_workbook <- function(dataframe, workbook, worksheet_name, worksheet_numbe
 
 }
 
-save_workbook_timestamp <- function(workbook, workbook_filename, export_directory = dir_data_out){
+# save a workbook with a timestamp in the filename
+save_workbook_timestamp <- function(workbook, workbook_filename, export_directory = dir_data_out) {
   now <- Sys.time()
-  workbook_file <- paste0(workbook_filename, format(now, "%Y%m%d_%H%M%S_"), ".xlsx")
+  workbook_file <- glue('{workbook_filename}{format(now, "%Y%m%d_%H%M%S_")}.xlsx')
   saveWorkbook(workbook, file = here::here(export_directory, workbook_file), overwrite = TRUE)
 }
 
+# one-liner that writes out an excel file based on a variable name
 write_excel <- function(variable) {
   write.xlsx(variable, file = here::here(dir_data_out, glue('{deparse(substitute(variable))}.xlsx')))
 }
 
-begin_processing <- function() {
-  assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
-}
-
-end_processing <- function() {
-  ls(.GlobalEnv) %>%
-    setdiff(., curr_env) %>%
-    as.character() %>%
-    rm(list = ., envir = .GlobalEnv)
-
-  beep()
-}
-
+# one-liner to write out a plot file from a variable, similar to `write_excel`
 write_plot <- function(variable, width = NA, height = NA, format = NA, units = NA, dpi = NA) {
   default_format <- 'png'
   default_units <- 'in'
@@ -223,4 +187,13 @@ write_plot <- function(variable, width = NA, height = NA, format = NA, units = N
     width = width,
     height = height
   )
-}             
+}
+
+# render out a notebook
+render_notebook <- function(notebook_file) {
+  rmarkdown::render(
+    notebook_file,
+    output_dir = dir_reports,
+    encoding = 'utf-8'
+  )
+}
