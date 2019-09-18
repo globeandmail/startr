@@ -206,7 +206,7 @@ end_processing <- function() {
   beep()
 }
 
-write_plot <- function(variable, width = NA, height = NA, format = NA, units = NA, dpi = NA) {
+write_plot <- function(variable, width = NA, height = NA, format = NA, units = NA, dpi = NA, limitsize = TRUE) {
   default_format <- 'png'
   default_units <- 'in'
   default_dpi <- 300
@@ -221,6 +221,7 @@ write_plot <- function(variable, width = NA, height = NA, format = NA, units = N
     units = default_units,
     dpi = default_dpi,
     width = width,
-    height = height
+    height = height,
+    limitsize = limitsize
   )
 }             
