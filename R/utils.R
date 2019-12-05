@@ -222,6 +222,7 @@ write_plot <- function(variable, width = NA, height = NA, format = NA, units = N
     dpi = default_dpi,
     width = width,
     height = height,
-    limitsize = limitsize
+    limitsize = limitsize,
+    useDingbats = FALSE
   )
 }             
