@@ -22,7 +22,7 @@ dir_reports <- 'reports'
 dir_plots <- 'plots'
 
 # Files: You'll want to edit this to add your source data file names
-sample.raw.file <- 'sample.csv'
+sample.raw.file <- here::here(dir_data_raw, 'sample.csv')
 
 # Primary and supplemental notebooks.
 # Set should_render_notebook to TRUE if using notebooks

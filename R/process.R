@@ -10,7 +10,7 @@
 
 # begin_processing()
 
-# sample.raw <- read_csv(here::here(dir_data_raw, sample.raw.file)) %>%
+# sample.raw <- read_csv(sample.raw.file) %>%
 #   rename(
 #     cma = 'CMA',
 #     date = 'Date',

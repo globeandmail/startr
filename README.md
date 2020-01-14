@@ -51,7 +51,7 @@ Before starting an analysis, you'll want to point to your data files in `config.
 Once that's done, you'll want to reference your raw data filenames. For instance, if you're adding pizza delivery data, you'd add this line to the "Files" block in `config.R`:
 
 ```R
-pizza.raw.file <- 'Citywide Pizza Deliveries 1998-2016.xlsx'
+pizza.raw.file <- here::here(dir_data_raw, 'Citywide Pizza Deliveries 1998-2016.xlsx')
 ```
 
 Our naming convention is to append `.raw` to variables that reference raw data, and `.file` to variables that are just filename strings.
@@ -61,7 +61,7 @@ Our naming convention is to append `.raw` to variables that reference raw data, 
 In `process.R`, you'll consume the variables you created in `config.R`, clean them up, rename variables, deal with any errors, convert multiple data files to a common structure if necessary, and save out the result, plus some cleanup at the end so as to not pollute the environment. It might look something like this:
 
 ```R
-pizza.raw <- read_excel(here::here(dir_data_raw, pizza.raw.file), skip = 2) %>%
+pizza.raw <- read_excel(pizza.raw.file, skip = 2) %>%
   select(-one_of('X1', 'X2')) %>%
   rename(
     date = 'Date',
@@ -153,7 +153,7 @@ An `.nvmrc` is included at the project root for scraping with Node. A `venv` and
 
 ## Version
 
-1.0.1
+1.0.2
 
 ## License
 
