@@ -7,8 +7,8 @@ data/out/*
 !data/out/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
-plot/*
-!plot/.gitkeep
+plots/*
+!plots/.gitkeep
 node_modules
 .dropbox
 Icon
