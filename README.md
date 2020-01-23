@@ -2,23 +2,18 @@
 
 A template for data journalism projects in R.
 
-This project structures the data analysis process around an expected set of files and steps. This lowers the upfront effort of starting and maintaining a project and supports easier verification by providing reviewers with an expected and logically organized project. Think of it like Ruby on Rails or React, but for R analysis.
+This project structures the data analysis process around an expected set of files and steps. This lowers the upfront effort of starting and maintaining a project and supports easier verification by providing reviewers with an expected and logically organized project. Think of it as an "opinionated framework" like Django, Ruby on Rails or React, but for R analysis.
 
-Broadly, the goals of `startr` are to:
+Broadly, `startr` does a few things:
 
-* Remove the need for thinking about how to structure your project so you can focus on actual analysis
-* Support a flexible analysis workflow
-  * Clearly defined stages can be shared across a team
-  * Adapt to large and small projects
-* Improve analysis verification process
-  * Make it easier to verify logic of the analysis by cutting down on spaghetti code
-  * Track any logical errors by enforcing certain standards (e.g. no variable reassignment)
-* In cases where a large, multi-disciplinary team is working on a project, improve communication between data journalists and reporters throughout the analysis
-  * Document data details including dimensions, column names and field types and glossary
-  * Capture reporting questions and answers from the data
-  * Generate updatable reports, graphics, and datasets throughout the analysis
+* **Standardizes your projects**: Eliminates the need to think about project structure so you can focus on the analysis
+* **Breaks the data journalism process into discrete steps**: Supports a flexible analysis workflow with clearly-defined steps which can be shared easily across a team
+* **Bakes in flexibility**: Has a format that works for both large (multi-month) and small (single-day) projects
+* **De-clutters your code**: Improves the painstaking analysis verification/fact-checking process by cutting down on spaghetti code
+* **Improves communication**: Documents the analysis steps and questions to be answered for large, multi-disciplinary teams (say, developers, data journalists and traditional reporters)
+* **Simplifies the generation of charts and reports**: Generates easily updatable RMarkdown reports, Adobe Illustrator-ready graphics, and datasets during analysis
 
-Input files are treated as raw and read-only while outputs, including data, plots and reports, are treated as a disposable product. No variables should ever be overwritten or reassigned to prevent order-of-execution accidents.
+`startr` also enforces certain coding standards. Namely, raw data files are treated as read-only while outputs, including data, plots and reports, are treated as a disposable product and never checked into source management tools. No variables should ever be overwritten or reassigned to prevent order-of-execution accidents.
 
 
 ## How do I use this?
@@ -39,6 +34,8 @@ Here's how we use `startr` for our own analysis workflow right now. The heart of
 * **`analyze.R`**: Consumes the data files saved out by `process.R`, and is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. All descriptive and relational statistical analysis. More complicated analysis can be split into additional `analyze_somestep.R` files as required.
 
 * **`visualize.R`**: Generates plots.
+
+There's also an optional (but recommended) RMarkdown file (**`notebook.Rmd`**) you can use to generate a report – especially useful for longer-term projects where you need to document the questions you're asking.
 
 #### Step 1: Set up your project
 
@@ -157,7 +154,7 @@ An `.nvmrc` is included at the project root for scraping with Node. A `venv` and
 
 ## License
 
-startr © 2019 The Globe and Mail. It is free software, and may be redistributed under the terms specified in our MIT license.
+startr © 2020 The Globe and Mail. It is free software, and may be redistributed under the terms specified in our MIT license.
 
 ## Get in touch
 
