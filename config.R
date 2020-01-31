@@ -33,6 +33,7 @@ r_notebook <- here::here(dir_reports, 'notebook.Rmd')
 # you can disable that below.
 should_render_notebook <- FALSE
 should_process_data <- TRUE
+timestamp_output_files <- FALSE
 
 packages <- c(
   # essentials
