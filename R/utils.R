@@ -139,15 +139,18 @@ write_excel <- function(variable, timestamp = timestamp_output_files) {
 }
 
 begin_processing <- function() {
-  assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
+  if (clean_processing_variables) {
+    assign('curr_env', ls(.GlobalEnv), envir = .GlobalEnv)
+  }
 }
 
 end_processing <- function() {
-  ls(.GlobalEnv) %>%
-    setdiff(., curr_env) %>%
-    as.character() %>%
-    rm(list = ., envir = .GlobalEnv)
-
+  if (clean_processing_variables) {
+    ls(.GlobalEnv) %>%
+      setdiff(., curr_env) %>%
+      as.character() %>%
+      rm(list = ., envir = .GlobalEnv)
+  }
   beep()
 }
 

@@ -28,12 +28,18 @@ sample.raw.file <- here::here(dir_data_raw, 'sample.csv')
 # Set should_render_notebook to TRUE if using notebooks
 r_notebook <- here::here(dir_reports, 'notebook.Rmd')
 
-# Misc. vars: In some cases, you might not want to re-process the
-# data every time (say, if you're ingesting several gigabytes), so
-# you can disable that below.
+# startr-specific configuration, consumed by helper functions
+# Should a notebook be rendered in run.R?
 should_render_notebook <- FALSE
+
+# Should the processing step be run in run.R?
 should_process_data <- TRUE
+
+# Should files written with write_excel have a timestamp in the filename?
 timestamp_output_files <- FALSE
+
+# Should the variables created during process.R be cleaned up after processing?
+clean_processing_variables <- TRUE
 
 packages <- c(
   # essentials
@@ -45,7 +51,7 @@ packages <- c(
   # summarize data
   # 'summarytools', 'DataExplorer', 'funModeling', 'anomalize',
   # visualization
-  'scales',
+  'scales', 'ggthemes',
   # scraping
   'rvest',
   # GIS
