@@ -129,7 +129,7 @@ convert_str_to_logical <- function(x, truthy = 'T|TRUE', falsy = 'F|FALSE') {
     as.logical(.)
 }
 
-write_excel <- function(variable, timestamp = FALSE) {
+write_excel <- function(variable, timestamp = timestamp_output_files) {
   filename <- deparse(substitute(variable))
   if (timestamp) {
     now <- Sys.time()
