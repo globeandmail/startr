@@ -133,7 +133,7 @@ write_excel <- function(variable, timestamp = FALSE) {
   filename <- deparse(substitute(variable))
   if (timestamp) {
     now <- Sys.time()
-    filename <- glue('{filename}_{format(now, "%Y-%m-%d_%H:%M:%S")}')
+    filename <- glue('{filename}_{format(now, "%Y%m%d%H%M%S")}')
   }
   write.xlsx(variable, file = here::here(dir_data_out, glue('{filename}.xlsx')))
 }
