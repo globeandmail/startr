@@ -2,18 +2,16 @@
 
 A template for data journalism projects in R.
 
-This project structures the data analysis process around an expected set of files and steps. This lowers the upfront effort of starting and maintaining a project and supports easier verification by providing reviewers with an expected and logically organized project. Think of it as an "opinionated framework" like Django, Ruby on Rails or React, but for R analysis.
+This project structures the data analysis process, reducing the amount of time you'll spend setting up and maintaining a project. Essentially, it's an "opinionated framework" like Django, Ruby on Rails or React, but for data journalism.
 
 Broadly, `startr` does a few things:
 
 * **Standardizes your projects**: Eliminates the need to think about project structure so you can focus on the analysis
-* **Breaks the data journalism process into discrete steps**: Supports a flexible analysis workflow with clearly-defined steps which can be shared easily across a team
+* **Breaks analysis into discrete steps**: Supports a flexible analysis workflow with clearly-defined steps which can be shared easily across a team
 * **Bakes in flexibility**: Has a format that works for both large (multi-month) and small (single-day) projects
-* **De-clutters your code**: Improves the painstaking analysis verification/fact-checking process by cutting down on spaghetti code
+* **De-clutters your code**: Improves the painstaking data verification/fact-checking process by cutting down on spaghetti code
 * **Improves communication**: Documents the analysis steps and questions to be answered for large, multi-disciplinary teams (say, developers, data journalists and traditional reporters)
 * **Simplifies the generation of charts and reports**: Generates easily updatable RMarkdown reports, Adobe Illustrator-ready graphics, and datasets during analysis
-
-`startr` also enforces certain coding standards. Namely, raw data files are treated as read-only while outputs, including data, plots and reports, are treated as a disposable product and never checked into source management tools. No variables should ever be overwritten or reassigned to prevent order-of-execution accidents.
 
 
 ## How do I use this?
@@ -199,6 +197,16 @@ This template comes with several pre-made helper functions that we've found usef
     ```
 
 - `begin_processing` and `end_processing`: functions that are run at the top and bottom of `process.R` that clean up the environment of temporary variables created during the data processing step. To disable this, set the `clean_processing_variables` flag in `config.R` to FALSE.
+
+## Tips for using `startr`
+
+`startr` works best when you assume certain coding standards: 
+1. No variables should ever be overwritten or reassigned. Same goes for fields generated via `mutate()`.
+2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
+3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
+4. Treat raw data files (those in `data/raw`) as immutable and read-only.
+5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them. and never checked into source management tools.
+6. For coding style, we rely on the [tidyverse style guide](https://style.tidyverse.org/).
 
 ## Directory structure
 
