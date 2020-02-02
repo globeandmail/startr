@@ -124,7 +124,7 @@ write_plot(plot_deliveries_monthly)
 
 This template comes with several pre-made helper functions that we've found useful in daily data journalism tasks.
 
-- `read_all_excel_sheets`: Combines all Excel sheets in a given file into a single dataframe, adding an extra column called `sheet` for the sheet name. Takes all the same arguments as `readxl`'s `read_excel`. 
+- `read_all_excel_sheets`: Combines all Excel sheets in a given file into a single dataframe, adding an extra column called `sheet` for the sheet name. Takes all the same arguments as `readxl`'s `read_excel`.
 
     ```r
     pizza_deliveries <- read_all_excel_sheets(
@@ -133,7 +133,7 @@ This template comes with several pre-made helper functions that we've found usef
       ) %>%
       rename(pizza_shop = 'sheet')
     ```
-    
+
 - `simplify_string`: By default, takes strings and simplifies them by force-uppercasing, replacing accents with non-accented characters, removing every non-alphanumeric character, and simplifying double/mutli-spaces into single spaces. Very useful when dealing with messy human-entry data with people's names, corporations, etc.
 
     ```r
@@ -141,7 +141,7 @@ This template comes with several pre-made helper functions that we've found usef
       mutate(customer_simplified = simplify_string(customer_name))
 
     ```
-    
+
 - `index`: Calculate percentage growth by indexing values to the first value:
 
     ```r
@@ -151,7 +151,7 @@ This template comes with several pre-made helper functions that we've found usef
       summarise(total_deliveries = n()) %>%
       mutate(indexed_deliveries = index(total_deliveries))
     ```
-    
+
 - `mode`: Calculate the mode for a given field:
 
 
@@ -180,10 +180,10 @@ This template comes with several pre-made helper functions that we've found usef
     ```r
     undelivered_pizzas <- pizza_deliveries %>%
       filter(!was_delivered_logi)
-      
+
     write_excel(undelivered_pizzas)
     ```
-    
+
 - `write_plot`: Similar to `write_excel`, designed to quickly save out a plot directly to `/plots`. Takes all the same arguments as `ggsave`.
 
     ```r
@@ -192,7 +192,7 @@ This template comes with several pre-made helper functions that we've found usef
       summarise(n = n()) %>%
       ggplot(aes(x = year, y = n)) +
       geom_col()
-      
+
     write_plot(plot_undelivered_pizzas)
     ```
 
@@ -200,7 +200,7 @@ This template comes with several pre-made helper functions that we've found usef
 
 ## Tips for using `startr`
 
-`startr` works best when you assume certain coding standards: 
+`startr` works best when you assume certain coding standards:
 1. No variables should ever be overwritten or reassigned. Same goes for fields generated via `mutate()`.
 2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
 3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
