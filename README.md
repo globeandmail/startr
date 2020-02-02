@@ -205,7 +205,7 @@ This template comes with several pre-made helper functions that we've found usef
 2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
 3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
 4. Treat raw data files (those in `data/raw`) as immutable and read-only.
-5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them. and never checked into source management tools.
+5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them, so they're never checked into source management tools.
 6. For coding style, we rely on the [tidyverse style guide](https://style.tidyverse.org/).
 
 ## Directory structure
