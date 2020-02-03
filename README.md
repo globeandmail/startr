@@ -161,7 +161,7 @@ This template comes with several pre-made helper functions that we've found usef
       summarise(most_common_size = mode(size))
     ```
 
-- `clean_columns`: Renaming columns to something that doesn't have to be referenced with backticks (\`Column Name!\`) or square brackets (.\[\['Column Name!'\]\]) gets tedious. This function speeds up the process by forcing everything to lowercase and using underscores – the tidyverse's preferred naming convention for columns. If there are many columns with the same name during cleanup, they'll be appended with an index number.
+- `clean_columns`: Renaming columns to something that doesn't have to be referenced with backticks (`` `Column Name!` ``) or square brackets (`.[['Column Name!']]`) gets tedious. This function speeds up the process by forcing everything to lowercase and using underscores – the tidyverse's preferred naming convention for columns. If there are many columns with the same name during cleanup, they'll be appended with an index number.
 
     ```r
     pizza_deliveries %>%
