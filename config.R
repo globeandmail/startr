@@ -43,24 +43,23 @@ clean_processing_variables <- TRUE
 
 packages <- c(
   # essentials
-  'here', 'devtools',
+  'here', 'devtools', 'tidyverse',
   # manipulation
-  'tidyverse', 'lubridate', 'janitor', 'zoo', 'glue', 'clipr',
-  # Read/write XLS and XLSX files
-   'readxl', 'openxlsx',
-  # summarize data
-  # 'summarytools', 'DataExplorer', 'funModeling', 'anomalize',
+  'lubridate', 'janitor', 'zoo', 'glue', 'clipr', 
+  # modelling
+  'tidymodels',
+  # Read/write files
+  'readxl', 'openxlsx', 'feather',
   # visualization
-  'scales', 'ggthemes',
+  'scales', 'ggthemes', 'gganimate',
   # scraping
   'rvest',
   # GIS
-  # 'sf', 'rgdal', 'raster', 'ggmap', 'maps', 'maptools', 'geojsonio', 'geojsonR',
+  'sf',
   # RMarkdown
   'knitr', 'ezknitr', 'kableExtra', 'DT',
   # other stuff
   # 'cansim', 'cancensus',
-  # 'log4r',
   'beepr'
 )
 
