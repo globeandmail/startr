@@ -154,16 +154,18 @@ end_processing <- function() {
   beep()
 }
 
-write_plot <- function(variable, filename = NA, width = NA, height = NA, format = NA, units = NA, dpi = NA) {
+write_plot <- function(variable, filename = NA, width = NA, height = NA, format = NA, units = NA, dpi = NA, limitsize = NA) {
   default_format <- 'png'
   default_units <- 'in'
   default_dpi <- 300
   default_filename <- deparse(substitute(variable))
+  default_limitsize <- FALSE
 
   if(!is.na(format)) default_format <- format
   if(!is.na(units)) default_units <- units
   if(!is.na(dpi)) default_dpi <- dpi
   if(!is.na(filename)) default_filename <- filename
+  if(!is.na(limitsize)) default_limitsize <- limitsize
 
   args <- list(
     plot = variable,
@@ -171,7 +173,8 @@ write_plot <- function(variable, filename = NA, width = NA, height = NA, format 
     units = default_units,
     dpi = default_dpi,
     width = width,
-    height = height
+    height = height,
+    limitsize = default_limitsize
   )
 
   if (default_format == 'pdf') args[['useDingbats']] <- FALSE
