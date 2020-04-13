@@ -159,7 +159,7 @@ write_plot <- function(variable, filename = NA, width = NA, height = NA, format 
   default_units <- 'in'
   default_dpi <- 300
   default_filename <- deparse(substitute(variable))
-  default_limitsize <- FALSE
+  default_limitsize <- TRUE
 
   if(!is.na(format)) default_format <- format
   if(!is.na(units)) default_units <- units
