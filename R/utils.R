@@ -182,6 +182,14 @@ write_plot <- function(variable, filename = NA, width = NA, height = NA, format 
   do.call(ggsave, args)
 }
 
+write_shp <- function(shp, path) {
+  if (file.exists(path)) {
+    file.remove(path)
+  }
+
+  st_write(shp, path, update = TRUE)
+}
+
 # FROM https://github.com/dgrtwo/drlib/blob/master/R/reorder_within.R
 
 reorder_within <- function(x, by, within, fun = mean, sep = "___", ...) {
