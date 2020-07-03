@@ -23,6 +23,6 @@
 #   ) %>%
 #   arrange(cma, desc(date))
 #
-# write_csv(sample.raw, here::here(dir_data_processed, 'sample.csv'))
+# write_feather(sample.raw, here::here(dir_data_processed, 'sample.feather'))
 #
 # end_processing()
