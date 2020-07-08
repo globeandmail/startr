@@ -27,7 +27,7 @@ You can then start adding your data and writing your analysis. At The Globe, we 
 
 Here's how we use `startr` for our own analysis workflow right now. The heart of the project lies in these three files:
 
-* **`process.R`**: Imports source data, tidies it, fixes errors, sets types, applies manipulations and saves out a CSV ready for analysis (or, in other cases, a shapefile, etc.).
+* **`process.R`**: Imports source data, tidies it, fixes errors, sets types, applies manipulations and saves out a Feather file ready for analysis (or, in other cases, a CSV, a shapefile, etc.).
 
 * **`analyze.R`**: Consumes the data files saved out by `process.R`, and is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. All descriptive and relational statistical analysis. More complicated analysis can be split into additional `analyze_somestep.R` files as required.
 
@@ -76,17 +76,19 @@ pizza.raw <- read_excel(pizza.raw.file, skip = 2) %>%
   ) %>%
   filter(!is.na(date))
 
-write_csv(pizza.raw, here::here(dir_data_processed, 'pizza.csv'))
+write_feather(pizza.raw, here::here(dir_data_processed, 'pizza.feather'))
 ```
 
-The output files written to `dir_data_processed` (that is, `/data/processed`) aren't checked into Git by design — you should be able to reproduce the analysis-ready files from someone else's project by running `process.R`.
+We prefer to write out the output as a `.feather` file, which is a binary format that compresses the data (making it easier to share with others), is accepted by other analysis frameworks (such as Jupyter Notebooks) and, most importantly, embeds the column types so that you don't have to re-assert them later. You can change this by using a different function, such as the Tidyverse's `write_csv`.
+
+Output files written to `dir_data_processed` (that is, `/data/processed`) aren't checked into Git by design — you should be able to reproduce the analysis-ready files from someone else's project by running `process.R`.
 
 #### Step 2: Do your analysis
 
 This part's as simple as consuming that file in `analyze.R` and running with it. It might look something like this:
 
 ```R
-pizza <- read_csv(here::here(dir_data_processed, 'pizza.csv'))
+pizza <- read_feather(here::here(dir_data_processed, 'pizza.feather'))
 
 delivery_person_counts <- pizza %>%
   group_by(person) %>%
@@ -147,8 +149,9 @@ This template comes with several pre-made helper functions that we've found usef
     ```r
     pizza_deliveries %>%
       mutate(year = year(date)) %>%
-      group_by(year, size) %>%
+      group_by(size, year) %>%
       summarise(total_deliveries = n()) %>%
+      arrange(year) %>%
       mutate(indexed_deliveries = index(total_deliveries))
     ```
 
