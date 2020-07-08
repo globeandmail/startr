@@ -1,4 +1,3 @@
-if (!require('devtools')) install.packages('devtools'); library('devtools')
 if (!require('here')) install.packages('here'); library('here')
 
 source(here::here('config.R'))
