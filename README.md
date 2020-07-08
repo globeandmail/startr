@@ -79,7 +79,7 @@ pizza.raw <- read_excel(pizza.raw.file, skip = 2) %>%
 write_feather(pizza.raw, here::here(dir_data_processed, 'pizza.feather'))
 ```
 
-We prefer to write out the output as a `.feather` file, which is a binary format that compresses the data (making it easier to share with others), is accepted by other analysis frameworks (such as Jupyter Notebooks) and, most importantly, embeds the column types so that you don't have to re-assert them later. You can change this by using a different function, such as the Tidyverse's `write_csv`.
+We prefer to write out the output as a `.feather` file, which is a binary format designed to read and write files extremely fast (at roughly 600 MB/s). Feather files can also be opened in other analysis frameworks (i.e. Jupyter Notebooks) and, most importantly, embed the column types so that you don't have to re-assert them later. If you'd rather save out files in a different format, you can just use a different function, like the Tidyverse's `write_csv`.
 
 Output files written to `dir_data_processed` (that is, `/data/processed`) aren't checked into Git by design — you should be able to reproduce the analysis-ready files from someone else's project by running `process.R`.
 
