@@ -1,14 +1,15 @@
 ############################################################
-# This file is used to read in raw data, tidy, clean it,
-# and save a file to src *before* proceeding to analysis.
-# If you're using `mutate()` for any actual analysis you're
-# doing it wrong.
-#
-# Specify column types as required.
+# This file is used to read in raw data, clean it, and save
+# a file to `dir_data_processed()` *before* proceeding to
+# analysis. If this file is run from run.R, all variables
+# created by this step will be erased after the step is
+# complete to keep a clean working environment. Tip: If your
+# analysis is complicated enough that you need to break the
+# processing out into multiple files, simply source them
+# from this file by calling something like
+# `source(dir_src('process_files', 'process_step_1.R'))`
 #
 ############################################################
-
-# begin_processing()
 
 # sample.raw <- read_csv(sample.raw.file) %>%
 #   rename(
@@ -24,5 +25,3 @@
 #   arrange(cma, desc(date))
 #
 # write_feather(sample.raw, here::here(dir_data_processed, 'sample.feather'))
-#
-# end_processing()
