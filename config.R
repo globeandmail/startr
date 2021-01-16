@@ -6,7 +6,7 @@
 ############################################################
 
 # This initializes your startr project
-startr_config <- c(
+initialize_startr(
   author = 'Firstname Lastname <firstlast@globeandmail.com>',
   title = 'startr',
   timezone = 'America/Toronto',
@@ -14,7 +14,8 @@ startr_config <- c(
   should_process_data = TRUE,
   should_timestamp_output_files = FALSE,
   packages = c(
-    'tidyverse'
+    'tidyverse', 'glue', 'magrittr', 'lubridate', 'hms',
+    'readxl', 'feather', 'rvest'
     # 'janitor', 'zoo',
     # 'tidymodels',
     # 'scales', 'gganimate',
@@ -22,8 +23,6 @@ startr_config <- c(
     # 'cansim', 'cancensus',
   )
 )
-
-initialize_startr(startr_config)
 
 # Filenames: Refer to your source data filenames here
 sample.raw.file <- dir_data_raw('sample.csv')

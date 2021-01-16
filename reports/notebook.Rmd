@@ -1,7 +1,7 @@
 ---
-title: '`r startr_config[['config_title']]`'
+title: '`r getOption('startr.title')`'
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
-author: '`r startr_config[['config_author']]`'
+author: '`r getOption('startr.author')`'
 output:
   html_notebook:
     code_folding: hide

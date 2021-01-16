@@ -24,4 +24,4 @@
 #   ) %>%
 #   arrange(cma, desc(date))
 #
-# write_feather(sample.raw, here::here(dir_data_processed, 'sample.feather'))
+# write_feather(sample.raw, dir_data_processed('sample.feather'))
