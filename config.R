@@ -14,11 +14,12 @@ startr_config <- c(
   should_process_data = TRUE,
   should_timestamp_output_files = FALSE,
   packages = c(
-    'janitor', 'zoo',
-    'tidymodels',
-    'scales', 'gganimate',
-    'sf',
-    'cansim', 'cancensus',
+    'tidyverse'
+    # 'janitor', 'zoo',
+    # 'tidymodels',
+    # 'scales', 'gganimate',
+    # 'sf',
+    # 'cansim', 'cancensus',
   )
 )
 

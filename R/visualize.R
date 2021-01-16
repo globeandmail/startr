@@ -21,6 +21,6 @@
 #   ) +
 #   theme_classic()
 #
-# plot(plot_house_price_change)
+# plot_house_price_change
 #
 # write_plot(plot_house_price_change)
