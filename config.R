@@ -1,9 +1,7 @@
-############################################################
-# This file configures the project by specifying filenames,
-# loading packages and setting up some project-specific
-# variables.
-#
-############################################################
+# =================================================================
+# This file configures the project by specifying filenames, loading
+# packages and setting up some project-specific variables.
+# =================================================================
 
 # This initializes your startr project
 initialize_startr(
@@ -25,4 +23,4 @@ initialize_startr(
 )
 
 # Filenames: Refer to your source data filenames here
-sample.raw.file <- dir_data_raw('sample.csv')
+sample.raw.file <- dir_data_raw('your-filename-here.csv')

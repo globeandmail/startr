@@ -1,11 +1,7 @@
-############################################################
-# Charts, maps, etc. from your data
-#
-# Use the `write_plot` function to write the plot directly
-# to the `plots/` folder, using the variable name as
-# the filename.
-#
-############################################################
+# =======================================================================
+# Graphics. Use the `write_plot` function to write the plot directly
+# to the `plots/` folder, using the variable name as the filename.
+# =======================================================================
 
 # plot_house_price_change <- sample %>%
 #   filter(cma != 'C11') %>%
