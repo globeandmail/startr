@@ -280,7 +280,7 @@ An `.nvmrc` is included at the project root for scraping with Node. A `venv` and
 
 ## Version
 
-1.0.2
+1.1.0
 
 ## License
 
