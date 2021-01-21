@@ -129,21 +129,25 @@ write_plot(plot_deliveries_monthly)
 
 `startr`'s companion package [`upstartr`](https://www.github.com/globeandmail/upstartr) comes with several functions to support `startr`, plus helpers we've found useful in daily data journalism tasks. A full list can be found on the [reference page here](https://globeandmail.github.io/upstartr/reference/index.html). Below is a partial list of some of its most handy functions:
 
-- [`read_all_excel_sheets`](https://globeandmail.github.io/upstartr/reference/read_all_excel_sheets.html): Combines all Excel sheets in a given file into a single dataframe, adding an extra column called `sheet` for the sheet name. Takes all the same arguments as `readxl`'s `read_excel`.
-
-    ```r
-    pizza_deliveries <- read_all_excel_sheets(
-        pizza_deliveries.file,
-        skip = 3,
-      ) %>%
-      rename(pizza_shop = 'sheet')
-    ```
-
 - [`simplify_string`](https://globeandmail.github.io/upstartr/reference/simplify_string.html): By default, takes strings and simplifies them by force-uppercasing, replacing accents with non-accented characters, removing every non-alphanumeric character, and simplifying double/mutli-spaces into single spaces. Very useful when dealing with messy human-entry data with people's names, corporations, etc.
 
     ```r
     pizza_deliveries %>%
       mutate(customer_simplified = simplify_string(customer_name))
+    ```
+
+- [`clean_columns`](https://globeandmail.github.io/upstartr/reference/clean_columns.html): Renaming columns to something that doesn't have to be referenced with backticks (`` `Column Name!` ``) or square brackets (`.[['Column Name!']]`) gets tedious. This function speeds up the process by forcing everything to lowercase and using underscores – the tidyverse's preferred naming convention for columns. If there are many columns with the same name during cleanup, they'll be appended with an index number.
+
+    ```r
+    pizza_deliveries %>%
+      rename_all(clean_columns)
+    ```
+
+- [`convert_str_to_logical`](https://globeandmail.github.io/upstartr/reference/convert_str_to_logical.html): Does the work of cleaning up your True, TRUE, true, T, False, FALSE, false, F, etc. strings to logicals.
+
+    ```r
+    pizza_deliveries %>%
+      mutate(was_delivered_logi = convert_str_to_logical(was_delivered))
     ```
 
 - [`calc_index`](https://globeandmail.github.io/upstartr/reference/calc_index.html): Calculate percentage growth by indexing values to the first value:
@@ -159,25 +163,10 @@ write_plot(plot_deliveries_monthly)
 
 - [`calc_mode`](https://globeandmail.github.io/upstartr/reference/calc_mode.html): Calculate the mode for a given field:
 
-
     ```r
     pizza_deliveries %>%
       group_by(pizza_shop) %>%
       summarise(most_common_size = mode(size))
-    ```
-
-- [`clean_columns`](https://globeandmail.github.io/upstartr/reference/clean_columns.html): Renaming columns to something that doesn't have to be referenced with backticks (`` `Column Name!` ``) or square brackets (`.[['Column Name!']]`) gets tedious. This function speeds up the process by forcing everything to lowercase and using underscores – the tidyverse's preferred naming convention for columns. If there are many columns with the same name during cleanup, they'll be appended with an index number.
-
-    ```r
-    pizza_deliveries %>%
-      rename_all(clean_columns)
-    ```
-
-- [`convert_str_to_logical`](https://globeandmail.github.io/upstartr/reference/convert_str_to_logical.html): Does the work of cleaning up your True, TRUE, true, T, False, FALSE, false, F, etc. strings to logicals.
-
-    ```r
-    pizza_deliveries %>%
-      mutate(was_delivered_logi = convert_str_to_logical(was_delivered))
     ```
 
 - [`write_excel`](https://globeandmail.github.io/upstartr/reference/write_excel.html): Writes out an Excel file to `data/out` using the variable name as the file name. Useful for quickly generating summary tables for sharing with others. By design, doesn't take any arguments to keep things as simple as possible. If `should_timestamp_output_files` is set to TRUE in `config.R`, will append a timestamp to the filename in the format `%Y%m%d%H%M%S`.
@@ -201,6 +190,16 @@ write_plot(plot_deliveries_monthly)
     write_plot(plot_undelivered_pizzas)
     ```
 
+- [`read_all_excel_sheets`](https://globeandmail.github.io/upstartr/reference/read_all_excel_sheets.html): Combines all Excel sheets in a given file into a single dataframe, adding an extra column called `sheet` for the sheet name. Takes all the same arguments as `readxl`'s `read_excel`.
+
+    ```r
+    pizza_deliveries <- read_all_excel_sheets(
+        pizza_deliveries.file,
+        skip = 3,
+      ) %>%
+      rename(pizza_shop = 'sheet')
+    ```
+
 - [`combine_csvs`](https://globeandmail.github.io/upstartr/reference/combine_csvs.html): Read all CSVs in a given directory and concatenate them into a single file.
 
     ```r
@@ -213,7 +212,7 @@ write_plot(plot_deliveries_monthly)
     pizzas_in_excel <- combine_excels(dir_data_raw())
     ```
 
-- `unaccent`(https://globeandmail.github.io/upstartr/reference/unaccent.html): Remove accents from strings.
+- [`unaccent`](https://globeandmail.github.io/upstartr/reference/unaccent.html): Remove accents from strings.
 
     ```r
     unaccent('Montréal')
