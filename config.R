@@ -23,5 +23,5 @@ initialize_startr(
   )
 )
 
-# Filenames: Refer to your source data filenames here
+# Refer to your source data filenames here
 sample.raw.file <- dir_data_raw('your-filename-here.csv')
