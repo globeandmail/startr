@@ -1,7 +1,7 @@
 Package: startR
 Type: Package
 Title: A Template For Data Journalism Projects In R
-Version: 1.0.1
+Version: 1.1.0
 Author: Michael Pereira <mpereira@globeandmail.com> and Tom Cardoso <tcardoso@globeandmail.com>
 Maintainer: Michael Pereira <mpereira@globeandmail.com> and Tom Cardoso <tcardoso@globeandmail.com>
 Description: This project structures the data analysis process around an expected set of files and steps.
