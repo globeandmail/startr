@@ -34,14 +34,14 @@ Broadly, `startr` does a few things:
 
 ## Installation
 
-This template works with R and RStudio, so you'll need both of those installed. To scaffold a new `startr` project, we recommend using our command-line tool, [`startr-cli`](https://www.github.com/globeandmail/startr-cli), which will rename some files, configure the project and initialize an empty Git repository.
+This template works with R and RStudio, so you'll need both of those installed. To scaffold a new `startr` project, we recommend using our command-line tool, [`startr-cli`](https://github.com/globeandmail/startr-cli), which will copy down the folder structure, rename some files, configure the project and initialize an empty Git repository.
 
 Alternatively, you can run:
 ```sh
 git clone https://github.com/globeandmail/startr.git <your-project-name-here>
 ```
 
-(But, if you do that, be sure to rename your `startr.Rproj` file to `<project-name>.Rproj`.)
+(But, if you do that, be sure to rename your `startr.Rproj` file to `<project-name>.Rproj` and set up your settings in `config.R` manually.)
 
 Once a fresh project is ready, double-click on the `.Rproj` file to start a scoped RStudio instance.
 
@@ -51,13 +51,27 @@ You can then start copying in your data and writing your analysis. At The Globe,
 
 TKTKTKTK
 
+- **Your raw data is immutable**:
+- **Your outputs are disposable**:
+- **Never overwrite variables**:
+- **Order matters**: We only ever run our R code sequentially
+- **Wipe your environment often**:
+- **Use the tidyverse**: For coding style, we rely on the [tidyverse style guide](https://style.tidyverse.org/).
+
+`startr` works best when you assume certain coding standards:
+1. No variables should ever be overwritten or reassigned. Same goes for fields generated via [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
+2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
+3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
+4. Treat raw data files (those in `data/raw`) as immutable and read-only.
+5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them, so they're never checked into source management tools.
+
 ## Workflow
 
 The heart of the project lies in these three files:
 
-* **`process.R`**: Import your source data, tidy it, fix any errors, set types, apply upfront manipulations and save out a file ready for analysis. We recommend saving out a [`.feather`](https://github.com/wesm/feather) file, which will retain types and reads extremely quickly — but you can also use a CSV, shapefile, RDS file or something else if you'd prefer.
+* **`process.R`**: Import your source data, tidy it, fix any errors, set types, apply upfront manipulations and save out a file ready for analysis. We recommend saving out a [`.feather`](https://github.com/wesm/feather) file, which will retain types and is design to read extremely quickly — but you can also use a .CSV, shapefile, .RDS file or something else if you'd prefer.
 
-* **`analyze.R`**: Here you'll consume the data files saved out by `process.R`. This is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. If your analysis is complex enough, you may want to split it into additional `analyze_step_X.R` files as required.
+* **`analyze.R`**: Here you'll consume the data files saved out by `process.R`. This is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. If your analysis is complex enough, you may want to split it out into additional `analyze_step_X.R` files as required.
 
 * **`visualize.R`**: Draw and save out your graphics.
 
@@ -67,7 +81,7 @@ There's also an optional (but recommended) RMarkdown file (**`notebook.Rmd`**) y
 
 The bulk of any `startr` project's code lives within the `R` directory, in files that are sourced and run in sequence by the `run.R` at the project's root.
 
-Many of the core functions for this project are managed by a specialty package, [**upstartr**](https://www.github.com/globeandmail/upstartr). That package is installed and imported in `run.R` automatically.
+Many of the core functions for this project are managed by a specialty package, [**upstartr**](https://github.com/globeandmail/upstartr). That package is installed and imported in `run.R` automatically.
 
 Before starting an analysis, you'll need to set up your `config.R` file.
 
@@ -164,7 +178,7 @@ TKTKTKTK
 
 ## Helper functions
 
-`startr`'s companion package [`upstartr`](https://www.github.com/globeandmail/upstartr) comes with several functions to support `startr`, plus helpers we've found useful in daily data journalism tasks. A full list can be found on the [reference page here](https://globeandmail.github.io/upstartr/reference/index.html). Below is a partial list of some of its most handy functions:
+`startr`'s companion package [`upstartr`](https://github.com/globeandmail/upstartr) comes with several functions to support `startr`, plus helpers we've found useful in daily data journalism tasks. A full list can be found on the [reference page here](https://globeandmail.github.io/upstartr/reference/index.html). Below is a partial list of some of its most handy functions:
 
 - [`simplify_string()`](https://globeandmail.github.io/upstartr/reference/simplify_string.html): By default, takes strings and simplifies them by force-uppercasing, replacing accents with non-accented characters, removing every non-alphanumeric character, and simplifying double/mutli-spaces into single spaces. Very useful when dealing with messy human-entry data with people's names, corporations, etc.
 
@@ -195,7 +209,7 @@ TKTKTKTK
       group_by(size, year) %>%
       summarise(total_deliveries = n()) %>%
       arrange(year) %>%
-      mutate(indexed_deliveries = index(total_deliveries))
+      mutate(indexed_deliveries = calc_index(total_deliveries))
     ```
 
 - [`calc_mode()`](https://globeandmail.github.io/upstartr/reference/calc_mode.html): Calculate the mode for a given field:
@@ -203,7 +217,7 @@ TKTKTKTK
     ```r
     pizza_deliveries %>%
       group_by(pizza_shop) %>%
-      summarise(most_common_size = mode(size))
+      summarise(most_common_size = calc_mode(size))
     ```
 
 - [`write_excel()`](https://globeandmail.github.io/upstartr/reference/write_excel.html): Writes out an Excel file to `data/out` using the variable name as the file name. Useful for quickly generating summary tables for sharing with others. By design, doesn't take any arguments to keep things as simple as possible. If `should_timestamp_output_files` is set to TRUE in `config.R`, will append a timestamp to the filename in the format `%Y%m%d%H%M%S`.
@@ -233,8 +247,7 @@ TKTKTKTK
     pizza_deliveries <- read_all_excel_sheets(
         pizza_deliveries.file,
         skip = 3,
-      ) %>%
-      rename(pizza_shop = 'sheet')
+      )
     ```
 
 - [`combine_csvs()`](https://globeandmail.github.io/upstartr/reference/combine_csvs.html): Read all CSVs in a given directory and concatenate them into a single file. Takes all the same arguments as [`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html)
@@ -274,46 +287,43 @@ TKTKTKTK
 
 ## Tips
 
-`startr` works best when you assume certain coding standards:
-1. No variables should ever be overwritten or reassigned. Same goes for fields generated via [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
-2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
-3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
-4. Treat raw data files (those in `data/raw`) as immutable and read-only.
-5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them, so they're never checked into source management tools.
-6. For coding style, we rely on the [tidyverse style guide](https://style.tidyverse.org/).
+- **You don't always need to process your data**: If your [processing step](#step-2-import-and-process-data) takes a while and you've already generated your processed files during a previous run, you can tell `startr` to skip this step by setting `should_process_data` to `FALSE` in `config.R`'s [`initialize_startr()`](https://globeandmail.github.io/upstartr/reference/initialize_startr.html) function. Just be sure to set it back to `TRUE` if your processing code changes!
+- **Consider timestamping your output files**: If you're using [`upstartr`](https://github.com/globeandmail/upstartr)'s [`write_excel()`](https://globeandmail.github.io/upstartr/reference/write_excel.html) helper, you can automatically timestamp your filenames by setting `should_timestamp_output_files` to `TRUE` in [`initialize_startr()`](https://globeandmail.github.io/upstartr/reference/initialize_startr.html).
+- **Use the functions file**: Reduce repetition in your code by putting writing functions and putting them in the `functions.R` file, which gets `source()`'d when [`run_config()`](https://globeandmail.github.io/upstartr/reference/run_config.html) is run.
+- **Help us make `startr` better**: Using this package? Find yourself wishing the structure were slightly different, or have an often-used function you're tired of copying and pasting between projects? Please [send us your feedback](#get-in-touch).
 
 ## Directory structure
 
-```bash
+```
 ├── data/
-│   ├── raw           # The original data files. Treat this directory as read-only.
-│   ├── cache         # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
-│   ├── processed     # Imported and tidied data used throughout the analysis.
-│   └── out           # Exports of data at key steps or as a final output.
+│   ├── raw/          # The original data files. Treat this directory as read-only.
+│   ├── cache/        # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
+│   ├── processed/    # Imported and tidied data used throughout the analysis.
+│   └── out/          # Exports of data at key steps or as a final output.
 ├── R/
 │   ├── process.R     # Data processing including tidying, processing and manupulation.
 │   ├── analyze.R     # The primary analysis steps.
 │   ├── visualize.R   # Generate plots as png, pdf, etc.
 │   └── functions.R   # Project-specific functions.
-├── scrape/
-│   └── scrape.R      # Scraping scripts that save collected data to the `/data/raw/` directory.
 ├── plots/            # Visualizations saved out plot files in standard formats.
 ├── reports/          # Generated reports and associated files.
+├── scrape/
+│   └── scrape.R      # Scraping scripts that save collected data to the `/data/raw/` directory.
 │   └── notebook.Rmd  # Standard notebook to render reports.
 ├── config.R          # Global project variables including packages, key project paths and data sources.
 ├── run.R             # Wrapper file to run the analysis steps, either inline or sourced from component R files.
 └── startr.Rproj      # Rproj file for RStudio
 ```
 
-An `.nvmrc` is included at the project root for scraping with Node. A `venv` and `requirements.txt` file should be included within the scraper directory if Python is used for scraping.
+An `.nvmrc` is included at the project root for Node.js-based scraping. If you prefer to scrape with Python, be sure to add `venv` and `requirements.txt` files, or a `Gemfile` if working in Ruby.
 
 ## See also
 
 `startr` is part of a small ecosystem of R utilities. Those include:
 
-- [**upstartr**](https://www.github.com/globeandmail/upstartr), a library of functions that support `startr` and daily data journalism tasks
-- [**tgamtheme**](https://www.github.com/globeandmail/tgamtheme), The Globe and Mail's graphics theme
-- [**startr-cli**](https://www.github.com/globeandmail/startr-cli), a command-line tool that scaffolds new `startr` projects
+- [**upstartr**](https://github.com/globeandmail/upstartr), a library of functions that support `startr` and daily data journalism tasks
+- [**tgamtheme**](https://github.com/globeandmail/tgamtheme), The Globe and Mail's graphics theme
+- [**startr-cli**](https://github.com/globeandmail/startr-cli), a command-line tool that scaffolds new `startr` projects
 
 ## Version
 
@@ -327,6 +337,5 @@ startr © 2020 The Globe and Mail. It is free software, and may be redistributed
 
 If you've got any questions, feel free to send us an email, or give us a shout on Twitter:
 
-[![Michael Pereira](https://avatars0.githubusercontent.com/u/212666?v=3&s=200)](https://github.com/monkeycycle)| [![Tom Cardoso](https://avatars0.githubusercontent.com/u/2408118?v=3&s=200)](https://github.com/tomcardoso)
----|---
-[Michael Pereira](mailto:mpereira@globeandmail.com) <br> [@__m_pereira](https://www.twitter.com/__m_pereira) | [Tom Cardoso](mailto:tcardoso@globeandmail.com) <br> [@tom_cardoso](https://www.twitter.com/tom_cardoso)
+[![Tom Cardoso](https://avatars0.githubusercontent.com/u/2408118?v=3&s=65)](https://github.com/tomcardoso)
+[Tom Cardoso](mailto:tcardoso@globeandmail.com) <br> [@tom_cardoso](https://www.twitter.com/tom_cardoso)

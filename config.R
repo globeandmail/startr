@@ -6,7 +6,7 @@
 # This initializes your startr project
 initialize_startr(
   title = 'startr',
-  author = 'Firstname Lastname <firstlast@globeandmail.com>',
+  author = 'Firstname Lastname <firstlast@example.com>',
   timezone = 'America/Toronto',
   should_render_notebook = FALSE,
   should_process_data = TRUE,
