@@ -6,12 +6,13 @@ This project structures the data analysis process, reducing the amount of time y
 
 Broadly, `startr` does a few things:
 
-* **Standardizes your projects**: Eliminates the need to think about project structure so you can focus on the analysis
-* **Breaks analysis into discrete steps**: Supports a flexible analysis workflow with clearly-defined steps which can be shared easily across a team
-* **Bakes in flexibility**: Has a format that works for both large (multi-month) and small (single-day) projects
-* **De-clutters your code**: Improves the painstaking data verification/fact-checking process by cutting down on spaghetti code
-* **Improves communication**: Documents the analysis steps and questions to be answered for large, multi-disciplinary teams (say, developers, data journalists and traditional reporters)
-* **Simplifies the generation of charts and reports**: Generates easily updatable RMarkdown reports, Adobe Illustrator-ready graphics, and datasets during analysis
+* **Standardizes your projects**: Eliminates the need to think about project structure so you can focus on the analysis.
+* **Breaks analysis into discrete steps**: Supports a flexible analysis workflow with clearly-defined steps which can be shared easily across a team.
+* **Helps you catch mistakes**: With structure and workflow baked in, you can focus on writing analysis code, reducing the opportunities for mistakes.
+* **Bakes in flexibility**: Has a format that works for both large (multi-month) and small (single-day) projects.
+* **De-clutters your code**: Improves the painstaking data verification/fact-checking process by cutting down on spaghetti code.
+* **Improves communication**: Documents the analysis steps and questions to be answered for large, multi-disciplinary teams (say, developers, data journalists and traditional reporters).
+* **Simplifies the generation of charts and reports**: Generates easily updatable RMarkdown reports, Adobe Illustrator-ready graphics, and datasets during analysis.
 
 ## Table of contents
 * [startr](#startr)
@@ -49,21 +50,16 @@ You can then start copying in your data and writing your analysis. At The Globe,
 
 ## Philosophy on data analysis
 
-TKTKTKTK
+This analysis framework is designed to be flexible, reproducible and easy to jump into for a new user. `startr` works best when you assume certain coding standards:
 
-- **Your raw data is immutable**:
-- **Your outputs are disposable**:
-- **Never overwrite variables**:
-- **Order matters**: We only ever run our R code sequentially
-- **Wipe your environment often**:
+- **Your raw data is immutable**: Treat the files in `data/raw` as read-only. This means you only ever alter them programmatically, and never edit or overwrite files in that folder. If you need to manually rewrite certain columns in a raw data file, do so by creating a new spreadsheet with the new values, then join it to the original data file during the [processing step](#step-2-import-and-process-data).
+- **Your outputs are disposable**: Treat all project outputs (everything in `data/processed`, `data/out/`, `data/cache` and `plots/`) as disposable products. By default, this project's `.gitignore` file ignores those files, so they're never checked into source management tools. Unless absolutely necessary, do not alter `.gitignore` to check in those files — the analysis pipeline should be able to reproduce them all from your raw data files.
+- **Shorter is not always better**: Your code should, as much as possible, be self-documenting. Keep it clean and as simple as possible. If an analysis chain is becoming particularly long or complex, break it out into smaller chunks, or consider writing a function to abstract out the complexity in your code.
+- **Only optimize your code for performance when necessary**: It's easy to fall into a premature optimization rabbit hole, especially on larger or more complex projects. In most cases, there's no need to optimize your code for performance — only do this if your analysis process is taking several minutes or longer.
+- **Never overwrite variables**: No variables should ever be overwritten or reassigned. Same goes for fields generated via [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
+- **Order matters**: We only ever run our R code sequentially, which prevents reproducibility issues resulting from users running code chunks in different orders. For instance, do not run a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
+- **Wipe your environment often**: If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
 - **Use the tidyverse**: For coding style, we rely on the [tidyverse style guide](https://style.tidyverse.org/).
-
-`startr` works best when you assume certain coding standards:
-1. No variables should ever be overwritten or reassigned. Same goes for fields generated via [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
-2. If using RStudio (our preferred tool for work in R), restart and clear the environment often to make sure your code is reproducible.
-3. Only ever run code sequentially to prevent order-of-execution accidents. In other words: don't jump around. For example, avoid running a block of code at line 22, then code at line 11, then some more code at line 37, since that may lead to unexpected results that another journalist won't be able to reproduce.
-4. Treat raw data files (those in `data/raw`) as immutable and read-only.
-5. Conversely, treat all outputs (everything else, including data, plots and reports) as a disposable product. By default, this project's `.gitignore` file ignores them, so they're never checked into source management tools.
 
 ## Workflow
 
@@ -337,5 +333,6 @@ startr © 2020 The Globe and Mail. It is free software, and may be redistributed
 
 If you've got any questions, feel free to send us an email, or give us a shout on Twitter:
 
-[![Tom Cardoso](https://avatars0.githubusercontent.com/u/2408118?v=3&s=65)](https://github.com/tomcardoso)
-[Tom Cardoso](mailto:tcardoso@globeandmail.com) <br> [@tom_cardoso](https://www.twitter.com/tom_cardoso)
+[![Tom Cardoso](https://avatars0.githubusercontent.com/u/2408118?v=3&s=65)](https://github.com/tomcardoso) | [![Michael Pereira](https://avatars0.githubusercontent.com/u/212666?v=3&s=65)](https://github.com/monkeycycle)
+---|---
+[Tom Cardoso](mailto:tcardoso@globeandmail.com) <br> [@tom_cardoso](https://www.twitter.com/tom_cardoso) | [Michael Pereira](mailto:hello@monkeycycle.org) <br> [@__m_pereira](https://www.twitter.com/__m_pereira)
