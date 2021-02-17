@@ -37,6 +37,10 @@ Broadly, `startr` does a few things:
 
 This template works with R and RStudio, so you'll need both of those installed. To scaffold a new `startr` project, we recommend using our command-line tool, [`startr-cli`](https://github.com/globeandmail/startr-cli), which will copy down the folder structure, rename some files, configure the project and initialize an empty Git repository.
 
+Using [`startr-cli`](https://github.com/globeandmail/startr-cli), you can scaffold a new project by simply running `create-startr` in your terminal and following the prompts:
+
+![startr-cli interface GIF](http://i.imgur.com/4qtiJar.gif)
+
 Alternatively, you can run:
 ```sh
 git clone https://github.com/globeandmail/startr.git <your-project-name-here>
