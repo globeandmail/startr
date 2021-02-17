@@ -289,7 +289,7 @@ TKTKTKTK
 
 - **You don't always need to process your data**: If your [processing step](#step-2-import-and-process-data) takes a while and you've already generated your processed files during a previous run, you can tell `startr` to skip this step by setting `should_process_data` to `FALSE` in `config.R`'s [`initialize_startr()`](https://globeandmail.github.io/upstartr/reference/initialize_startr.html) function. Just be sure to set it back to `TRUE` if your processing code changes!
 - **Consider timestamping your output files**: If you're using [`upstartr`](https://github.com/globeandmail/upstartr)'s [`write_excel()`](https://globeandmail.github.io/upstartr/reference/write_excel.html) helper, you can automatically timestamp your filenames by setting `should_timestamp_output_files` to `TRUE` in [`initialize_startr()`](https://globeandmail.github.io/upstartr/reference/initialize_startr.html).
-- **Use the functions file**: Reduce repetition in your code by putting writing functions and putting them in the `functions.R` file, which gets `source()`'d when [`run_config()`](https://globeandmail.github.io/upstartr/reference/run_config.html) is run.
+- **Use the functions file**: Reduce repetition in your code by writing functions and putting them in the `functions.R` file, which gets `source()`'d when [`run_config()`](https://globeandmail.github.io/upstartr/reference/run_config.html) is run.
 - **Help us make `startr` better**: Using this package? Find yourself wishing the structure were slightly different, or have an often-used function you're tired of copying and pasting between projects? Please [send us your feedback](#get-in-touch).
 
 ## Directory structure
