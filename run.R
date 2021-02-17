@@ -1,8 +1,7 @@
-if (!require('here')) install.packages('here'); library('here')
+if (!require('upstartr')) install.packages('upstartr'); library('upstartr')
 
-source(here::here('config.R'))
-if (should_process_data) { source(here::here(dir_src, 'process.R')) }
-source(here::here(dir_src, 'analyze.R'))
-source(here::here(dir_src, 'visualize.R'))
-
-if (should_render_notebook) { render_notebook(r_notebook) }
+run_config()
+run_process()
+run_analyze()
+run_visualize()
+run_notebook()

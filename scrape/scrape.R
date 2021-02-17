@@ -1,6 +1,9 @@
-############################################################
-# This file handles any scrapes that might be necessary,
-# and doesn't get called by the main block.
-#
-#
-############################################################
+# =======================================================================
+# Put any scraping code here. This file doesn't get called by `run.R`.
+# =======================================================================
+
+if (!require('upstartr')) install.packages('upstartr'); library('upstartr')
+
+run_config()
+
+# Scraping code goes here.

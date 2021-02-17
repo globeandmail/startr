@@ -1,7 +1,7 @@
 ---
-title: '`r config_title`'
+title: '`r getOption('startr.title')`'
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
-author: '`r config_author`'
+author: '`r getOption('startr.author')`'
 output:
   html_notebook:
     code_folding: hide
@@ -13,17 +13,10 @@ output:
     toc_float: yes
 ---
 
-## Config
-```{r config, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+## First heading
 
-if (!require('devtools')) install.packages('devtools'); library('devtools')
-if (!require('here')) install.packages('here'); library('here')
+Text goes here.
 
-source(here::here('config.R'))
-if (should_process_data) source(here::here(dir_src, 'process.R'))
-source(here::here(dir_src, 'analyze.R'))
-source(here::here(dir_src, 'visualize.R'))
-
-options(warn = 1, width = 200)
-
+```{r}
+# R code goes here
 ```
