@@ -8,15 +8,15 @@ initialize_startr(
   title = 'startr',
   author = 'Firstname Lastname <firstlast@example.com>',
   timezone = 'America/Toronto',
-  should_render_notebook = FALSE,
+  should_render_notebook = TRUE,
   should_process_data = TRUE,
   should_timestamp_output_files = FALSE,
   packages = c(
     'tidyverse', 'glue', 'magrittr', 'lubridate', 'hms',
-    'readxl', 'feather'
+    'readxl', 'feather', 'janitor', 'knitr', 'scales'
     # 'rvest'
     # 'tgamtheme',
-    # 'janitor', 'zoo',
+    # 'zoo',
     # 'tidymodels',
     # 'scales', 'gganimate',
     # 'sf',

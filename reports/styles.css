@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #444444;
+}
+
+.btn,
+.btn btn-default.btn-xs.code-folding-btn.pull-right,
+.btn btn-default.btn-xs.code-folding-btn.pull-right:hover,
+.btn.btn-default.btn-xs.code-folding-btn.pull-right.collapsed,
+.btn.btn-default.btn-xs.code-folding-btn.pull-right.collapsed:hover,
+.code-folding-btn,
+.code-folding-btn:hover {
+    margin-bottom: -30px !important;
+    font-family: "Open Sans", arial, sans-serif;
+    color: #efefef;
+    background: #888888;
+    border-color: #888888;
+}
+
+.btn btn-default.btn-xs.code-folding-btn.pull-right:hover,
+.btn.btn-default.btn-xs.code-folding-btn.pull-right.collapsed:hover,
+.code-folding-btn:hover {
+    color: #888888;
+    background: #eeeeee;
+    border-color: #eeeeee;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+.section h1,
+h2,
+.section h2,
+h3,
+.section h3,
+h4,
+.section h4,
+h5,
+.section h5,
+h6,
+.section h6 {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.1;
+    color: #444444;
+    margin-top: 30px !important;
+    font-weight: bold;
+}
+
+.section h3 {
+  border-left: 30px solid #444444;
+  padding-left: 20px;
+  font-size: 16px;
+  color: #000000;
+  margin: 0;
+}
+
+h1>h2,
+h2>h3,
+h3>h4,
+.section h1>.section h2,
+.section h2>.section h3,
+.section h3>.section h4 {
+    margin-top: 20px !important;
+}
+
+em,
+i {
+    font-style: normal;
+}
+
+li {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+p {
+    font-family: "Open Sans", sans-serif ;
+}
+
+p b,
+p strong {
+    font-family: "Open Sans", sans-serif ;
+    font-weight: 700;
+}
+
+small {
+  font-size: 1rem;
+}
+
+p>img {
+    margin-top: 30px;
+    width: 100%;
+}
+
+#key-takeaways p,
+#key-takeaways li {
+    font-family: "Open Sans", sans-serif ;
+}
+
+#key-takeaways p {
+    margin-bottom: 20px;
+}
+
+table {
+    margin-top: 1em;
+    margin-bottom: 2em;
+    clear: both;
+}
+
+table tr td,
+table tr th {
+    font-family: "Open Sans", sans-serif ;
+    font-style: normal;
+    font-size: 1.3rem;
+    padding: 0.1em 0.2em;
+}
+
+table tr th {
+    font-family: "Open Sans", sans-serif ;
+}
+
+a,
+a:hover {
+    color: #852E57;
+}
+
+table.dataTable caption,
+table.table.table-condensed caption {
+    font-family: "Open Sans", sans-serif !important;
+    color: inherit;
+}
+
+.dataTables_length,
+.dataTables_filter,
+.dataTables_info,
+.dataTables_paginate.paging_simple_numbers {
+    font-family: "Open Sans", sans-serif !important;
+    color: inherit;
+    font-size: 1.4rem;
+}
+
+pre:not([class]) {
+    border: 0;
+    border-left: 5px solid #ccc;
+    padding-left: 1em;
+    margin-bottom: 4em;
+}
+
+pre:not([class]) code {
+    font-family: "Open Sans", sans-serif !important;
+    font-size: 1.4em;
+}
+
+pre.r {
+    border: 1px solid #cccccc;
+    padding-left: 1em;
+    margin-bottom: 1em;
+}
+
+pre.r code {
+    font-family: 'Lucida Console', monospace !important;
+    font-size: 1em;
+}
+
+.TOC {
+    display: block;
+    width: 30%;
+    float: right;
+    margin: 0 0 20px 20px;
+    padding: 10px;
+}
+
+#TOC.tocify {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    max-width: 300px;
+    height: 100%;
+    max-height: 95vh;
+    margin: 0;
+    overflow-y: scroll;
+    border: 0;
+    border-radius: 0;
+}
+
+#TOC ul .tocify-item.list-group-item.active {
+    color: #ffffff;
+    background: #777777;
+}
+
+ol,
+ul {
+    margin-left: 1em;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+    margin-left: 1em;
+}
+
+.dataTable td .caption {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+.section p img {
+    margin-bottom: 40px;
+}
+
+.note,
+.note p {
+    display: block;
+    float: left;
+    width: 100%;
+    font-family: "Open Sans", sans-serif !important;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+/*
+=TOC .tocify-header.list-group {
+padding-left: 0px;
+}
+*/
+
+#TOC ul ul .tocify-subheader.list-group {
+    padding-left: 20px;
+    margin-left: 0;
+    background: #cecece;
+}
+
+
+/*  Tablesaw */
+
+
+/*  Table formatting */
+
+
+/*! Tablesaw - v3.0.6 - 2017-11-20
+* https://github.com/filamentgroup/tablesaw
+* Copyright (c) 2017 Filament Group; Licensed MIT */
+
+
+/*! Tablesaw - v3.0.6 - 2017-11-20
+* https://github.com/filamentgroup/tablesaw
+* Copyright (c) 2017 Filament Group; Licensed MIT */
+
+div table {
+    width: 100%;
+    max-width: 100%;
+    empty-cells: show;
+    border-collapse: collapse;
+    border: 0;
+    padding: 0
+}
+
+div table * {
+    box-sizing: border-box
+}
+
+@media (min-width:24em) {
+    div table-bar-section .abbreviated {
+        display: none
+    }
+    div table-bar-section .longform {
+        display: inline
+    }
+}
+
+div table th,
+div table td {
+    padding: .5em .7em;
+    text-align: left;
+    vertical-align: middle
+}
+
+div table thead th {
+    text-align: left
+}
+
+div table caption {
+    text-align: left;
+    margin: .59375em 0
+}
+
+div table thead,
+div table thead {
+    background-image: none;
+    background-color: #fff;
+    border: 0;
+    border-bottom: 2px solid #555
+}
+
+div table thead tr th,
+div table tbody tr th,
+div table tbody tr th,
+div table tbody tr td,
+div table thead tr th,
+div table tbody tr th,
+div table tbody tr th,
+div table tbody tr td {
+    font-family: "Open Sans", arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.3;
+    text-align: left;
+    vertical-align: top
+}
+
+div table thead tr th,
+div table thead tr th {
+    border-bottom: 2px solid #B2B2B2;
+    text-align: left;
+    background-color: #fff;
+    border: 0
+}
+
+
+.bignumber_module_block {
+  display: inline-block;
+  float: left;
+  width: 100%;
+  clear: both;
+  background: #ffffff;
+}
+
+.bignumber_module {
+  display: inline-block;
+  float: left;
+  width: 36%;
+  margin: 30px 2%;
+  padding: 0px 5px 10px 5px;
+  text-align: center;
+  background: #ececec;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.bignumber_module .module_title,
+.bignumber_module .module_value {
+  display: inline-block;
+  float: left;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+}
+
+.bignumber_module .module_value {
+  margin-bottom: -20px;
+  font-size: 5rem;
+  line-height: 1;
+}
+
+.bignumber_module .module_title {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-top: -30px;
+  margin-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #ffffff;
+  background: #444444;
+}
+
+.bignumber_module .module_unit {
+  display: inline-block;
+  float: left;
+  width: 100%;
+}
+
+.bignumber_module .module_value_detail {
+  display: inline-block;
+  float: left;
+  font-size: 1.6rem;
+  width: 40%;
+  margin: 0 5%;
+}
+
+.bignumber_module .module_value b,
+.bignumber_module .module_value_detail b {
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.plot {
+  display: inline-block;
+  float: left;
+  margin: 0 0 40px 0;
+}

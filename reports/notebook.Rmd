@@ -1,22 +1,146 @@
+```{r config, echo=FALSE, message=FALSE, warning=FALSE, results="hide"}
+# Run config first to use dynamic variables in the YAML
+if (!require("upstartr")) install.packages("upstartr")
+library("upstartr")
+run_config()
+```
+
 ---
-title: '`r getOption('startr.title')`'
-date: '`r format(Sys.Date(), "%B %d, %Y")`'
-author: '`r getOption('startr.author')`'
+title: "`r getOption("startr.title")`"
+date: "`r format(Sys.Date(), "%B %d, %Y")`"
+author: "`r getOption("startr.author")`"
 output:
-  html_notebook:
-    code_folding: hide
-    df_print: kable
-    self_contained: yes
-    theme: cosmo
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
+  html_document:
+  code_folding: hide
+css: styles.css
+df_print: kable
+self_contained: yes
+theme: cosmo
+toc: yes
+toc_depth: 3
+toc_float: no
+
+<!-- output: -->
+<!--   html_notebook: -->
+<!--     code_folding: hide -->
+<!--     df_print: kable -->
+<!--     self_contained: yes -->
+
+<!-- theme: cosmo -->
+<!-- toc: yes -->
+<!-- toc_depth: 3 -->
+<!-- toc_float: no -->
 ---
 
-## First heading
+#### Download source data
 
-Text goes here.
+The source data is available on Canada's open data portal as a zipped archive containing a data CSV and corresponding metadata CSV. Download a copy, unzip it and read in the data CSV.
 
-```{r}
-# R code goes here
+####### Domestic and international Itinerant aircraft movements, total of all airports with NAV CANADA towers, weekly
+
+Weekly Itinerant aircraft movements (domestic, transborder and international), total of all Canadian airports with NAV CANADA towers.
+
+-   <https://open.canada.ca/data/en/dataset/c82b70c8-2c7f-49f4-8ace-a2c78e1a1e63>
+
+```{r get_read_data, echo=TRUE, message=TRUE, warning=TRUE}
+
+download.file("https://www150.statcan.gc.ca/n1/tbl/csv/23100287-eng.zip", dir_data_raw("23100287-eng.zip"))
+
+unzip(dir_data_raw("23100287-eng.zip"), overwrite = TRUE, exdir = dir_data_raw(), unzip = "internal", setTimes = FALSE)
+
+navcan_aircraft_movements_raw <- read_csv(dir_data_raw("23100287.csv")) %>%
+  clean_names() %>%
+  rename(
+    movement_type = domestic_and_international_itinerant_aircraft_movements
+  ) %>% 
+  mutate(
+    ref_date = as.Date(ref_date, format = "%Y-%m-%d")
+  )
+
+```
+
+The source data has `r nrow(navcan_aircraft_movements_raw)` rows and `r ncol(navcan_aircraft_movements_raw)` columns.
+
+```{r dim, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+dim(navcan_aircraft_movements_raw)
+```
+
+`read_csv` shows the source columns before names have been cleaned. `str()` uses `cat()` which doesn't render as a nice table in notebooks. Use this kable chain to render a nice table of columns, types and sample entries.
+
+```{r str, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+data.frame(
+  variable = names(navcan_aircraft_movements_raw),
+  classe = sapply(navcan_aircraft_movements_raw, typeof),
+  first_values = sapply(navcan_aircraft_movements_raw, function(x) paste0(head(x), collapse = ", ")),
+  row.names = NULL
+) %>%
+  kable()
+```
+
+Subset the columns to analyze. This isn't necessary unless tables will be output in the notebook.
+
+```{r subset, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+navcan_aircraft_movements <- navcan_aircraft_movements_raw %>%
+  select(
+    ref_date, movement_type, value
+  )
+```
+
+## Analysis
+
+### Weekly aircraft movements
+
+Quick plot to see what the data contains.
+
+```{r viz_monthly_movements, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+ggplot(navcan_aircraft_movements) +
+  aes(x = ref_date, y = value, colour = movement_type, group = movement_type) +
+  geom_line(size = 1L) +
+  scale_color_hue() +
+  scale_x_date(
+    expand = c(0, 0),
+    date_breaks = "2 month",
+    labels = date_format("%b %Y"),
+     limits = as.Date(c("2019-12-28","2021-03-30"))
+  ) +  
+  scale_y_continuous(
+    label=comma, 
+    expand = c(0, 0),
+    limits = c(0, 80000)
+  ) +   
+  labs(
+    title = wrap_text("Weekly aircraft movements across all airports with NAV CANADA towers", 80),
+    subtitle = "",
+    caption = wrap_text(paste("SOURCE: STATISTICS CANADA", sep = ""), 80),
+    x = "",
+    y = "",
+    fill = "",
+    colour = "Movement type"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.title=element_blank(),
+    legend.position = c(1.0, 1.0),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(10, 10, 10, 10)
+  )
+
+```
+
+### Recovery since April 2020
+
+"On March 16, Trudeau announced that new entry restrictions would be implemented shortly after midnight ET on March 18, restricting entry into the country to Canadian citizens and permanent residents and their immediate families. "
+
+[Timeline of the COVID-19 pandemic in Canada](https://en.wikipedia.org/wiki/Timeline_of_the_COVID-19_pandemic_in_Canada#March)
+
+```{r viz_recovery, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+
+
+
 ```
