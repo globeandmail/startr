@@ -13,12 +13,11 @@ initialize_startr(
   should_timestamp_output_files = FALSE,
   packages = c(
     'tidyverse', 'glue', 'magrittr', 'lubridate', 'hms',
-    'readxl', 'feather',
-    'scales'
+    'readxl', 'feather', 'scales', 'knitr'
     # 'rvest', 'janitor', 'zoo',
     # 'sf', 'tidymodels',
-    # 'cansim', 'cancensus',
-    # 'gganimate', 'tgamtheme'
+    # 'gganimate', 'tgamtheme',
+    # 'cansim', 'cancensus'
   )
 )
 
