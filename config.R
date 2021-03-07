@@ -3,7 +3,6 @@
 # packages and setting up some project-specific variables.
 # =================================================================
 
-# This initializes your startr project
 initialize_startr(
   title = 'startr',
   author = 'Firstname Lastname <firstlast@example.com>',
@@ -21,8 +20,8 @@ initialize_startr(
   )
 )
 
-# Refer to your source data filenames here. These can be either references
-# to files in your `data/raw` folder, or paths to files hosted on the web.
+# Refer to your source data here. These can be either references to files in
+# your `data/raw` folder, or paths to files hosted on the web. For example:
 # For example:
 # sample.raw.file <- dir_data_raw('your-filename-here.csv')
 # sample.raw.path <- 'https://github.com/tidyverse/dplyr/raw/master/data-raw/starwars.csv'
