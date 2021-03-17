@@ -10,7 +10,6 @@ output:
     theme: cosmo
     toc: yes
     toc_depth: 3
-    toc_float: yes
 ---
 
 ## First heading
