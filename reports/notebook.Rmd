@@ -1,7 +1,7 @@
 ---
-title: '`r getOption('startr.title')`'
-date: '`r format(Sys.Date(), "%B %d, %Y")`'
-author: '`r getOption('startr.author')`'
+title: "`r getOption('startr.title')`"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+author: "`r getOption('startr.author')`"
 output:
   html_notebook:
     code_folding: hide
