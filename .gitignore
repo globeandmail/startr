@@ -9,6 +9,7 @@ data/processed/*
 !data/processed/.gitkeep
 plots/*
 !plots/.gitkeep
+reports/*.html
 node_modules
 .dropbox
 Icon
