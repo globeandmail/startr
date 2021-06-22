@@ -54,10 +54,10 @@ You can then start copying in your data and writing your analysis. At The Globe,
 
 ## Philosophy on data analysis
 
-This analysis framework is designed to be flexible, reproducible and easy to jump into for a new user. `startr` works best when you assume certain coding standards:
+This analysis framework is designed to be flexible, reproducible and easy to jump into for a new user. `startr` works best when you assume The Globe’s own philosophy on data analysis:
 
-- **Your raw data is immutable**: Treat the files in `data/raw` as read-only. This means you only ever alter them programmatically, and never edit or overwrite files in that folder. If you need to manually rewrite certain columns in a raw data file, do so by creating a new spreadsheet with the new values, then join it to the original data file during the [processing step](#step-2-import-and-process-data).
-- **Your outputs are disposable**: Treat all project outputs (everything in `data/processed`, `data/out/`, `data/cache` and `plots/`) as disposable products. By default, this project's `.gitignore` file ignores those files, so they're never checked into source management tools. Unless absolutely necessary, do not alter `.gitignore` to check in those files — the analysis pipeline should be able to reproduce them all from your raw data files.
+- **Raw data is immutable**: Treat the files in `data/raw` as read-only. This means you only ever alter them programmatically, and never edit or overwrite files in that folder. If you need to manually rewrite certain columns in a raw data file, do so by creating a new spreadsheet with the new values, then join it to the original data file during the [processing step](#step-2-import-and-process-data).
+- **Outputs are disposable**: Treat all project outputs (everything in `data/processed`, `data/out/`, `data/cache` and `plots/`) as disposable products. By default, this project's `.gitignore` file ignores those files, so they're never checked into source management tools. Unless absolutely necessary, do not alter `.gitignore` to check in those files — the analysis pipeline should be able to reproduce them all from your raw data files.
 - **Shorter is not always better**: Your code should, as much as possible, be self-documenting. Keep it clean and as simple as possible. If an analysis chain is becoming particularly long or complex, break it out into smaller chunks, or consider writing a function to abstract out the complexity in your code.
 - **Only optimize your code for performance when necessary**: It's easy to fall into a premature optimization rabbit hole, especially on larger or more complex projects. In most cases, there's no need to optimize your code for performance — only do this if your analysis process is taking several minutes or longer.
 - **Never overwrite variables**: No variables should ever be overwritten or reassigned. Same goes for fields generated via [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html).
@@ -69,9 +69,9 @@ This analysis framework is designed to be flexible, reproducible and easy to jum
 
 The heart of the project lies in these three files:
 
-* **`process.R`**: Import your source data, tidy it, fix any errors, set types, apply upfront manipulations and save out a file ready for analysis. We recommend saving out a [`.feather`](https://github.com/wesm/feather) file, which will retain types and is design to read extremely quickly — but you can also use a .CSV, shapefile, .RDS file or something else if you'd prefer.
+* **`process.R`**: Import your source data, tidy it, fix any errors, set types, apply upfront manipulations and save out a file ready for analysis. We recommend saving out a [`.feather`](https://github.com/wesm/feather) file, which will retain types and is designed to read extremely quickly — but you can also use a .CSV, .RDS file, shapefile or something else if you'd prefer.
 
-* **`analyze.R`**: Here you'll consume the data files saved out by `process.R`. This is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. If your analysis is complex enough, you may want to split it out into additional `analyze_step_X.R` files as required.
+* **`analyze.R`**: Here you'll consume the data files saved out by `process.R`. This is where all of the true "analysis" occurs, including grouping, summarizing, filtering, etc. If your analysis is complex enough, you may want to split it out into additional `analyze_step_X.R` files as required, and then call those files from `analyze.R` using `source()`.
 
 * **`visualize.R`**: Draw and save out your graphics.
 
