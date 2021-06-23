@@ -266,6 +266,7 @@ TKTKTKTK
 
     ```r
     unaccent('Montréal')
+    # [1] "Montreal"
     ```
 
 - [`remove_non_utf8()`](https://globeandmail.github.io/upstartr/reference/remove_non_utf8.html): Remove non-UTF-8 characters from strings.
@@ -274,12 +275,14 @@ TKTKTKTK
     non_utf8 <- 'fa\xE7ile'
     Encoding(non_utf8) <- 'latin1'
     remove_non_utf8(non_utf8)
+    # [1] "façile"
     ```
 
 - [`%not_in%`](https://globeandmail.github.io/upstartr/reference/grapes-not_in-grapes.html): The opposite of the [`%in%`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/match.html) operator.
 
     ```r
     c(1, 2, 3, 4, 5) %not_in% c(4, 5, 6, 7, 8)
+    # [1]  TRUE  TRUE  TRUE FALSE FALSE
     ```
 
 - [`not.na()`](https://globeandmail.github.io/upstartr/reference/not.na.html): The opposite of the [`is.na`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/NA) function.
