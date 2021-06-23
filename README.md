@@ -300,19 +300,19 @@ TKTKTKTK
 ```
 ├── data/
 │   ├── raw/          # The original data files. Treat this directory as read-only.
-│   ├── cache/        # Cached files, mostly used when scraping or dealing with packages such as `cancensus`
-│   ├── processed/    # Imported and tidied data used throughout the analysis.
-│   └── out/          # Exports of data at key steps or as a final output.
+│   ├── cache/        # Cached files, mostly used when scraping or dealing with packages such as `cancensus`. Disposable, ignored by version control software.
+│   ├── processed/    # Imported and tidied data used throughout the analysis. Disposable, ignored by version control software.
+│   └── out/          # Exports of data at key steps or as a final output. Disposable, ignored by version control software.
 ├── R/
-│   ├── process.R     # Data processing including tidying, processing and manupulation.
-│   ├── analyze.R     # The primary analysis steps.
-│   ├── visualize.R   # Generate plots as png, pdf, etc.
+│   ├── process.R     # Basic data processing (fixing column types, setting dates, pre-emptive filtering, etc.) ahead of analysis.
+│   ├── analyze.R     # Your exploratory data analysis.
+│   ├── visualize.R   # Where your visualization code goes.
 │   └── functions.R   # Project-specific functions.
-├── plots/            # Visualizations saved out plot files in standard formats.
-├── reports/          # Generated reports and associated files.
+├── plots/            # Your generated graphics go here.
+├── reports/
+│   └── notebook.Rmd  # Your analysis notebook. Will be compiled into an .html file by `run.R`.
 ├── scrape/
 │   └── scrape.R      # Scraping scripts that save collected data to the `/data/raw/` directory.
-│   └── notebook.Rmd  # Standard notebook to render reports.
 ├── config.R          # Global project variables including packages, key project paths and data sources.
 ├── run.R             # Wrapper file to run the analysis steps, either inline or sourced from component R files.
 └── startr.Rproj      # Rproj file for RStudio
