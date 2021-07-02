@@ -1,22 +1,151 @@
+```{r config, echo=FALSE, message=FALSE, warning=FALSE, results="hide"}
+# Run config first to use dynamic variables in the YAML
+if (!require("upstartr")) install.packages("upstartr")
+library("upstartr")
+run_config()
+```
+
 ---
-title: '`r getOption('startr.title')`'
-date: '`r format(Sys.Date(), "%B %d, %Y")`'
-author: '`r getOption('startr.author')`'
+title: "`r getOption("startr.title")`"
+author: "`r getOption("startr.author")`"
+date: "`r format(Sys.Date(), "%B %d, %Y")`"
 output:
-  html_notebook:
-    code_folding: hide
-    df_print: kable
-    self_contained: yes
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: textmate
     theme: cosmo
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
+    df_print: kable
+    self_contained: true
+    code_folding: hide
 ---
 
-## First heading
+#### Download source data
 
-Text goes here.
+The source data is available on Canada's open data portal as a zipped archive containing a data CSV and corresponding metadata CSV. Download a copy, unzip it and read in the data CSV.
 
-```{r}
-# R code goes here
+* **Domestic and international Itinerant aircraft movements, total of all airports with NAV CANADA towers, weekly**
+  <https://open.canada.ca/data/en/dataset/c82b70c8-2c7f-49f4-8ace-a2c78e1a1e63>
+
+```{r get_read_data, echo=TRUE, message=TRUE, warning=TRUE, fold_source=TRUE}
+
+download.file("https://www150.statcan.gc.ca/n1/tbl/csv/23100287-eng.zip", dir_data_raw("23100287-eng.zip"))
+
+unzip(dir_data_raw("23100287-eng.zip"), overwrite = TRUE, exdir = dir_data_raw(), unzip = "internal", setTimes = FALSE)
+
+navcan_aircraft_movements_raw <- read_csv(dir_data_raw("23100287.csv")) %>%
+  rename_all(clean_columns) %>%
+  rename(
+    movement_type = domestic_and_international_itinerant_aircraft_movements
+  ) %>%
+  mutate(
+    refdate = as.Date(refdate, format = "%Y-%m-%d")
+  )
+
+```
+
+
+`read_csv` shows the source columns before names have been cleaned. `str()` uses `cat()` which doesn't render as a nice table in notebooks. Use this kable chain to render a friendly table of columns, types and sample entries.
+
+```{r str, echo=TRUE, message=TRUE, warning=TRUE, results="asis", fold_source=TRUE}
+
+data.frame(
+  variable = names(navcan_aircraft_movements_raw),
+  class = sapply(navcan_aircraft_movements_raw, typeof),
+  first_values = sapply(navcan_aircraft_movements_raw, function(x) paste0(head(x), collapse = ", ")),
+  row.names = NULL
+) %>%
+  kable(caption = "navcan_aircraft_movements_raw") %>% 
+  kable_minimal()
+```
+
+
+
+```{r dim, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+dim(navcan_aircraft_movements_raw)
+```
+
+The source data has `r nrow(navcan_aircraft_movements_raw)` rows and `r ncol(navcan_aircraft_movements_raw)` columns.
+
+Data is weekly and there are three options for `movement_type`. The data contains 
+`r nrow(navcan_aircraft_movements_raw) / 3 ` weeks of observations. 
+
+
+
+The source table contains a lot of redundant data that isn't applicable to this analysis. Subset the columns and convert `movement_type` to an ordered factor.
+
+```{r subset, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+navcan_aircraft_movements <- navcan_aircraft_movements_raw %>%
+  select(
+    refdate, movement_type, value ) %>% 
+  mutate(
+    movement_type = factor(movement_type, 
+                             levels=c(
+                               "Domestic movements",
+                               "Transborder movements", 
+                               "Other international movements"
+                              )
+                            )
+  )
+
+```
+
+## Analysis
+
+### Weekly aircraft movements
+
+Quick plot and table to see what the data contains.
+
+```{r viz_monthly_movements, echo=TRUE, message=TRUE, warning=TRUE, results="asis"}
+
+plot_navcan_aircraft_movements <-  ggplot(navcan_aircraft_movements) +
+  aes(x = refdate, y = value, colour = movement_type, group = movement_type) +
+  geom_line(size = 1L) +
+  scale_color_hue() +
+  scale_x_date(
+    expand = c(0, 0),
+    date_breaks = "2 month",
+    labels = date_format("%b %Y"),
+     limits = as.Date(c("2019-12-28","2021-03-30"))
+  ) +
+  scale_y_continuous(
+    label = label_number_si(),
+    expand = c(0, 0),
+    limits = c(0, 80000)
+  ) +
+  labs(
+    title = "Weekly aircraft movements across all airports with NAV CANADA towers",
+    subtitle = "",
+    caption = paste("SOURCE: STATISTICS CANADA", sep = ""),
+    x = "",
+    y = "",
+    fill = "",
+    colour = "Movement type"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.title=element_blank(),
+    legend.position = c(1.0, 1.0),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(10, 10, 10, 10),
+    panel.grid.major.x=ggplot2::element_blank(),
+    panel.grid.major.y=ggplot2::element_blank(),
+    panel.grid.minor.x=ggplot2::element_blank(),
+    panel.grid.minor.y=ggplot2::element_blank()
+  )
+
+plot(plot_navcan_aircraft_movements)
+
+datatable(navcan_aircraft_movements,
+          caption = 'Table: navcan_aircraft_movements',
+          class="cell-border stripe", rownames=FALSE,
+          options = list(
+            pageLength = 10,
+            order = list(list(1, 'desc'))
+          )
+        )
+
 ```

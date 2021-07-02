@@ -174,7 +174,17 @@ write_plot(plot_deliveries_monthly)
 
 #### Step 5: Write a notebook
 
-TKTKTKTK
+R notebooks are useful for documenting analysis in development, sharing results with others and generating updated reports that include graphics, tables and dynamic text. 
+
+Notebooks can be run or knit from within an RStudio session or rendered to YAML-specified formats using `run_notebook() `. `startr` expects `.Rmd` files in the `reports/` directory and individual notebooks can be rendered with `run_notebook(filename="notebook_filename.Rmd")`.
+
+Notebooks support a fresh start for analysis but can also reuse existing code by calling `run_process()`, `run_analyze()` and `run_visualize`. Graphics render with `plot(plot_deliveries_monthly)` and `DT` or `Kable` for tables, depending on preference and suitability. 
+
+A sample notebook is included in the `reports/` directory. One notable departure from typical notebooks is inserting an R chunk above the YAML. This is required to initialize `startr` and expose a few variables for the frontmatter. 
+
+
+
+
 
 ## Helper functions
 
