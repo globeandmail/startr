@@ -18,6 +18,7 @@ Broadly, `startr` does a few things:
 * [startr](#startr)
 * [Table of contents](#table-of-contents)
 * [Installation](#installation)
+* [Reproducible package versions](#reproducible-package-versions)
 * [Philosophy on data analysis](#philosophy-on-data-analysis)
 * [Workflow](#workflow)
   1. [Set up your project](#step-1-set-up-your-project)
@@ -51,6 +52,20 @@ git clone https://github.com/globeandmail/startr.git <your-project-name-here>
 Once a fresh project is ready, double-click on the `.Rproj` file to start a scoped RStudio instance.
 
 You can then start copying in your data and writing your analysis. At The Globe, we like to work in a code editor like Atom or Sublime Text, and use something like [`r-exec`](https://atom.io/packages/r-exec) to send code chunks to RStudio.
+
+## Reproducible package versions
+
+`startr` projects use [`renv`](https://rstudio.github.io/renv/) to pin the exact version of every package the project depends on, recorded in `renv.lock`. This is what makes "raw data in, same output every time" actually true over the life of a project — without it, `initialize_startr()`'s package loading pulls whatever the latest CRAN version happens to be on the day you (or a collaborator, or an agent) run it, which can silently change behaviour months or years later.
+
+The first time you open a project, RStudio will prompt you to run `renv::restore()` (or run it yourself) to install the exact package versions recorded in `renv.lock`.
+
+When you add a new package to `config.R`'s `packages` vector:
+
+1. Restart R (or re-source `config.R`) so `initialize_startr()` installs it via `librarian::shelf()`.
+2. Run `renv::snapshot()` to record the new package (and its version) in `renv.lock`.
+3. Commit the updated `renv.lock` alongside your code changes.
+
+`startr` projects are configured with `renv`'s `"all"` snapshot type rather than the default `"implicit"` one. The default scans your `.R` files for `library()`/`::` calls to figure out what's in use — but since `config.R` only ever references packages as plain strings passed to `initialize_startr(packages = c(...))`, that static scan wouldn't see them. `"all"` instead locks whatever's actually installed in the project's package library, which matches how `startr` projects declare dependencies. This means `renv::snapshot()` may occasionally pick up a package you installed for one-off exploration and don't actually need — if that happens, remove it from your library (`renv::remove('pkgname')`) before snapshotting, or just review `renv.lock`'s diff before committing.
 
 ## Philosophy on data analysis
 
@@ -312,6 +327,8 @@ TKTKTKTK
 │   └── notebook.Rmd  # Standard notebook to render reports.
 ├── config.R          # Global project variables including packages, key project paths and data sources.
 ├── run.R             # Wrapper file to run the analysis steps, either inline or sourced from component R files.
+├── renv.lock         # Pinned package versions. See "Reproducible package versions" above.
+├── .Rprofile         # Activates renv for the project automatically.
 └── startr.Rproj      # Rproj file for RStudio
 ```
 
