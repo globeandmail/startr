@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Generate and splice release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="${TAG#v}"
+
+          # Ask GitHub to generate a changelog from merged PRs since the previous tag
+          gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
+            --method POST \
+            -f tag_name="$TAG" \
+            --jq '.body' \
+            | sed '/^## What'\''s Changed$/d' \
+            > /tmp/generated-changelog.md
+
+          # Sanitize: handle the literal string "null" when there is no previous tag
+          if [ "$(cat /tmp/generated-changelog.md)" = "null" ]; then
+            : > /tmp/generated-changelog.md
+          fi
+
+          # Prefer the human-written "What's new" section from the version bump PR
+          # (expected branch name: chore/v{VERSION}) over the raw generated PR list
+          PR_BODY=$(gh pr list \
+            --state merged \
+            --head "chore/v${VERSION}" \
+            --json body \
+            --jq '.[0].body // ""' 2>/dev/null || echo "")
+          if [ -n "$PR_BODY" ]; then
+            WHATS_NEW=$(echo "$PR_BODY" | python3 .github/scripts/extract-whats-new.py 2>/dev/null || echo "")
+            if [ -n "$WHATS_NEW" ]; then
+              echo "$WHATS_NEW" > /tmp/generated-changelog.md
+            fi
+          fi
+
+          # Splice changelog into the template
+          VERSION="$VERSION" python3 .github/scripts/splice-release-notes.py
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          # Mark pre-releases automatically (alpha, beta, rc)
+          PRERELEASE=""
+          if [[ "$TAG" =~ (a|b|rc)[0-9]+$ ]]; then
+            PRERELEASE="--prerelease"
+          fi
+          if gh release view "$TAG" &>/dev/null; then
+            gh release edit "$TAG" --notes-file /tmp/release-notes.md
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes-file /tmp/release-notes.md \
+              $PRERELEASE
+          fi
