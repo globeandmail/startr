@@ -11,7 +11,7 @@ initialize_startr(
   should_process_data = TRUE,
   should_timestamp_output_files = FALSE,
   packages = c(
-    'tidyverse', 'glue', 'lubridate', 'readxl', 'feather', 'scales', 'knitr'
+    'tidyverse', 'glue', 'lubridate', 'readxl', 'feather', 'scales', 'knitr', 'beepr'
     # 'rvest', 'janitor', 'zoo',
     # 'sf', 'tidymodels',
     # 'gganimate', 'tgamtheme',
