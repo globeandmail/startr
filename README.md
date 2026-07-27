@@ -347,7 +347,7 @@ An `.nvmrc` is included at the project root for Node.js-based scraping. If you p
 
 ## Version
 
-1.1.0
+1.2.0
 
 ## License
 
